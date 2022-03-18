@@ -1,15 +1,14 @@
-import { init } from "@root/lib/modules/core/loader/CoreInit";
+import { BUILD_VERSION, init } from "@root/lib/modules/core/loader/CoreInit";
 
-class MyLibrary {
+class AxolotisPlayer {
   constructor() {
-    console.log("Library constructor loaded 2");
+    console.log("player initialized");
+    init();
   }
 
-  myMethod = (): boolean => {
-    console.log("Library method fired 2");
-    init();
-    return true;
-  };
+  version() {
+    return BUILD_VERSION;
+  }
 }
 
-export default MyLibrary;
+export default AxolotisPlayer;

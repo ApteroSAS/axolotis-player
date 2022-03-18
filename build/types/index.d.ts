@@ -1,5 +1,5 @@
-declare class MyLibrary {
+declare class AxolotisPlayer {
     constructor();
-    myMethod: () => boolean;
+    version(): any;
 }
-export default MyLibrary;
+export default AxolotisPlayer;
