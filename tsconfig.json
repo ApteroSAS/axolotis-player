@@ -1,9 +1,9 @@
 {
     "compilerOptions": {
-      "noImplicitAny": true,
+      "noImplicitAny": false,
       "outDir": "build/types",
       "module": "esnext",
-      "target": "es5",
+      "target": "ES6",
       "allowJs": true,
       "sourceMap": true,
       "declaration": true,
@@ -11,6 +11,10 @@
       "suppressImplicitAnyIndexErrors": true,
       "lib": ["es2018", "dom"],
       "moduleResolution": "node",
+      "baseUrl": "./",
+      "paths": {
+        "@root/*": ["./src/*"]
+      }
     },
     "include": ["src/lib"],
     "exclude": ["src/lib/**/tests"],

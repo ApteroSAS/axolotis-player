@@ -31,7 +31,7 @@ module.exports = {
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, 'build'),
-    library: "MyLibrary",
+    library: "axolotis-player",
     libraryTarget: 'umd',
     clean: true
   },
@@ -74,6 +74,14 @@ module.exports = {
     new webpack.BannerPlugin(banner)
   ],
   resolve: {
+    alias: {
+      three: path.resolve("./node_modules/three"),
+      "@root": path.resolve("./src")
+    },
+    fallback: {
+      'fs': false,
+      'path': false, // ammo.js seems to also use path
+    },
     extensions: ['.ts', '.js', '.json']
   }
 };

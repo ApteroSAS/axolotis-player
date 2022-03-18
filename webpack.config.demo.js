@@ -1,12 +1,17 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const HTMLWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
 
 module.exports = {
   mode: "development",
   devtool: 'cheap-module-source-map',
-  entry: './src/demo/index.ts',
   output: {
-    filename: 'index.js'
+    filename: "assets/js/[name]-[chunkhash].js",
+    path: path.resolve(__dirname, "./dist/")
+  },
+  entry: {
+    index: path.join(__dirname, "./src/demo/page/Index.ts"),
   },
   optimization: {
     minimize: false,
@@ -36,12 +41,38 @@ module.exports = {
     ]
   },
   plugins: [
+    new HTMLWebpackPlugin({
+      filename: "index.html",
+      template: path.join(__dirname, "./src/demo/page/index.html"),
+      chunks: ["index"],
+      chunksSortMode: "manual",
+      minify: {
+        removeComments: true
+      }
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {from: "src/demo/assets/favicon.ico", to: "favicon.ico" }
+      ]
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {from: "src/demo/assets/static/", to: "assets/static/" }
+      ]
+    }),
     new MiniCssExtractPlugin({
       filename: 'css/index.css'
-    }),
-    new HtmlWebpackPlugin(),
+    })
   ],
   resolve: {
+    alias: {
+      three: path.resolve("./node_modules/three"),
+      "@root": path.resolve("./src")
+    },
+    fallback: {
+      'fs': false,
+      'path': false, // ammo.js seems to also use path
+    },
     extensions: ['.ts', '.js', '.json']
   }
 };

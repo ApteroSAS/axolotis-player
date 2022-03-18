@@ -1,0 +1,39 @@
+{
+  "entities": [
+    {
+      "type": "ecs-component-loader",
+      "module": "@root/lib/modules/scenes/demo2/Sky2"
+    },
+    {
+      "type": "ecs-component-loader",
+      "module": "@root/lib/modules/spoke/SpokeRoomLoader",
+      "config": {
+        "room": "yUXD7A2"
+      }
+    },
+    {
+      "type": "ecs-component-loader",
+      "module": "@root/lib/modules/portals/PortalLink",
+      "config": {
+        "url": "https://app.axolotis.com/room/room1",
+        "in": {"x": 1, "y": 2, "z": 2},
+        "out": {"x": 1, "y": 2, "z": 2}
+      }
+    },
+    {
+      "type": "ecs-service-loader",
+      "module": "@root/lib/modules/debug/DebugBtn"
+    },
+    {
+      "type": "ecs-component-loader",
+      "module": "@root/lib/modules/controller/pathFindingPlayer/NavMeshPlayer",
+      "config": {
+        "position": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        }
+      }
+    }
+  ]
+}
