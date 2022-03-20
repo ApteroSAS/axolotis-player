@@ -11,7 +11,7 @@ import { CodeLoaderComponent } from "@root/lib/modules/core/loader/CodeLoaderCom
 export class Factory implements WebpackLazyModule, Service<WorldService> {
   constructor() {}
 
-  async create(services: LazyServices): Promise<WorldService> {
+  async createService(services: LazyServices): Promise<WorldService> {
     return new WorldService(services);
   }
 }

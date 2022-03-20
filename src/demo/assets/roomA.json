@@ -1,0 +1,12 @@
+{
+  "entities": [
+    {
+      "type": "ecs-component-loader",
+      "module": "ComponentExample"
+    },
+    {
+      "type": "ecs-service-loader",
+      "module": "ServiceExample"
+    }
+  ]
+}

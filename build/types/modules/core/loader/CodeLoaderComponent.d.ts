@@ -10,5 +10,7 @@ export declare class CodeLoaderComponent implements Component {
     searchRoomDefinitionFile(): Promise<any>;
     getType(): string;
     awaitInitialLoading(): Promise<void>;
-    startLoading(world: WorldEntity, list: any[], loadedCallBack: (progress: number, total: number) => void): Promise<any[]>;
+    startLoading(world: WorldEntity, list: any[], localModules: {
+        [id: string]: () => Promise<any>;
+    }, loadedCallBack: (progress: number, total: number) => void): Promise<any[]>;
 }

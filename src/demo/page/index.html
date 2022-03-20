@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="axolotis:room" content="assets/static/default/roomA.json"/>
+    <meta name="axolotis:room" content="assets/roomA.json"/>
     <!--<link rel="preload" href="assets/static/demo3/room.json" as="fetch" crossorigin="anonymous">-->
     <!--<link rel="preload" href="https://alphahub.aptero.co/files/967334c9-4080-4c2d-9e77-9bf2ee37818d.glb" as="fetch"
           crossorigin="anonymous">-->
@@ -147,20 +147,20 @@
 </head>
 
 <body>
+Press F12
+
+<ax-scene>
+    <ax-entity>
+        <ax-component module="ComponentExample" config="{position:{x:1,y:2,z:3}}"></ax-component>
+    </ax-entity>
+    <ax-service module="ServiceExample"></ax-service>
+</ax-scene>
+
 <div id="progresscontainer">
     <div style="display: flex;justify-content:center;height:100%">
         <div style="display: flex;flex-direction:column;justify-content:center;">
             <!--https://loading.io/css/-->
-            <div class="lds-roller">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
+            <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
         </div>
     </div>
     <div id="progress"></div>

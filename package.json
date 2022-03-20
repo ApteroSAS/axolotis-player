@@ -2,12 +2,15 @@
   "name": "@aptero/axolotis-player",
   "version": "1.0.0",
   "description": "Axolotis - player",
-  "main": "build/index.js",
-  "types": "build/types/index.d.ts",
+  "main": "./build/index.js",
+  "types": "./build/types/*.d.ts",
+  "exports": {
+    ".": "./build/index.js"
+  },
   "scripts": {
     "pre-build": "node ./generator/generate-webpack-module.js",
     "start": "webpack serve --config webpack.config.demo.js",
-    "build": "webpack && tsc",
+    "build": "cross-env npm run pre-build && webpack && tsc",
     "build:demo": "webpack --config webpack.config.demo.js",
     "test": "jest --silent",
     "coverage": "npm run test -- --coverage",

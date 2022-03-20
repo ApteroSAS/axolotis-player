@@ -2,7 +2,7 @@ import Component from "@root/lib/modules/core/ecs/Component";
 import { LazyServices, Service } from "@root/lib/modules/core/service/LazyServices";
 import { WebpackLazyModule } from "@root/lib/modules/core/loader/WebpackLoader";
 export declare class Factory implements WebpackLazyModule, Service<FrameLoop> {
-    create(services: LazyServices): Promise<FrameLoop>;
+    createService(services: LazyServices): Promise<FrameLoop>;
 }
 export declare class FrameLoop implements Component {
     loops: {

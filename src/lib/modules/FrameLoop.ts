@@ -8,7 +8,7 @@ import {
 import { WebpackLazyModule } from "@root/lib/modules/core/loader/WebpackLoader";
 
 export class Factory implements WebpackLazyModule, Service<FrameLoop> {
-  async create(services: LazyServices): Promise<FrameLoop> {
+  async createService(services: LazyServices): Promise<FrameLoop> {
     let codeLoader = await services.getService<CodeLoaderComponent>(
       "@root/lib/modules/core/loader/CodeLoaderService"
     );

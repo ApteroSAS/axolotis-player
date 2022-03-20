@@ -1,8 +1,9 @@
 import { instanciateWebpackAsyncModule } from "@root/lib/modules/core/loader/WebpackLoader";
 import Component from "@root/lib/modules/core/ecs/Component";
+import { instanciateJsAsyncModule } from "@root/lib/modules/core/loader/JsLoader";
 
 export interface Service<T> {
-  create(services: LazyServices): Promise<T>;
+  createService(services: LazyServices): Promise<T>;
 }
 
 export class LazyServices {
@@ -32,13 +33,10 @@ export class LazyServices {
       return module as T;
     }
     if (!this.service[this.toId(path, classname)]) {
-      let modulePromise = instanciateWebpackAsyncModule<Service<T>>(
-        path,
-        classname
-      );
+      let modulePromise = instanciateJsAsyncModule<Service<T>>(path, classname);
       this.service[this.toId(path, classname)] = new Promise(
         async (resolve) => {
-          let t: Component = await (await modulePromise).create(this);
+          let t: Component = await (await modulePromise).createService(this);
           resolve(t);
         }
       );

@@ -5,6 +5,7 @@ var fs = require("fs");
 var path = require("path");
 
 const genPath = "./src/lib/generated/webpack/module/";
+const scope = "./src/lib/";
 
 let webpackInterfaceName = ["WebpackAsyncModuleFactory", "WebpackLazyModule"];
 var walk = function(dir, done) {
@@ -158,7 +159,7 @@ function generateWebpackModules(
     }
 }
 
-walk("./src", function(err, results) {
+walk(scope, function(err, results) {
     if (err) throw err;
     results = results.filter(file => {
         return file.endsWith(".ts");

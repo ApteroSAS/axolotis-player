@@ -1,6 +1,6 @@
 import Component from "@root/lib/modules/core/ecs/Component";
 export interface Service<T> {
-    create(services: LazyServices): Promise<T>;
+    createService(services: LazyServices): Promise<T>;
 }
 export declare class LazyServices {
     service: {

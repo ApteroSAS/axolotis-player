@@ -57,7 +57,7 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [
-        {from: "src/demo/assets/static/", to: "assets/static/" }
+        {from: "src/demo/assets/", to: "assets/" }
       ]
     }),
     new MiniCssExtractPlugin({

@@ -4,7 +4,7 @@ import Component from "@root/lib/modules/core/ecs/Component";
 import { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
 export declare class Factory implements WebpackLazyModule, Service<WorldService> {
     constructor();
-    create(services: LazyServices): Promise<WorldService>;
+    createService(services: LazyServices): Promise<WorldService>;
 }
 export declare function registerNewWorld(worldEntity: WorldEntity): void;
 export declare class WorldService implements Component {
