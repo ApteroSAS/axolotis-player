@@ -1,4 +1,7 @@
-import { BUILD_VERSION, initHtml } from "@root/lib/modules/core/loader/CoreInit";
+import {
+  BUILD_VERSION,
+  initHtml,
+} from "@root/lib/modules/core/loader/CoreInit";
 import Entity from "@root/lib/modules/core/ecs/Entity";
 import { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
 import { AssetsLoader } from "@root/lib/modules/core/loader/AssetsLoader";

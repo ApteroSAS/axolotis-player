@@ -10,7 +10,17 @@ export declare class CodeLoaderComponent implements Component {
     searchRoomDefinitionFile(): Promise<any>;
     getType(): string;
     awaitInitialLoading(): Promise<void>;
-    startLoading(world: WorldEntity, list: any[], localModules: {
-        [id: string]: () => Promise<any>;
+    startLoadingJson(world: WorldEntity, scene: {
+        version: string;
+        entities: {
+            components: {
+                module: string;
+                config: any;
+                classname: string | undefined;
+            }[];
+        }[];
+        services: {
+            module: string;
+        }[];
     }, loadedCallBack: (progress: number, total: number) => void): Promise<any[]>;
 }

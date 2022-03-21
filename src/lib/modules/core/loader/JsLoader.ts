@@ -5,8 +5,8 @@ import { instanciateLocalAsyncModule } from "@root/lib/modules/core/loader/Local
 
 let localModules: { [id: string]: () => Promise<any> } = {};
 
-export function registerLocalModule(name:string,module:() => Promise<any>){
-  localModules[name]=module;
+export function registerLocalModule(name: string, module: () => Promise<any>) {
+  localModules[name] = module;
 }
 
 export async function instanciateJsAsyncModule<T>(
