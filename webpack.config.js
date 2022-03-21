@@ -34,7 +34,7 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'build'),
     library: "axolotis-player",
-    asyncChunks: true,
+    asyncChunks: false,
     libraryTarget: 'umd',
     umdNamedDefine: true,
     clean: true

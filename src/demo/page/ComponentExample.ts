@@ -8,6 +8,10 @@ import {ServiceEntity, WorldEntity} from "../../lib";
 export class ComponentExample implements Component{
     constructor(frameLoop:FrameLoop,worldService:WorldService) {
         console.log("ComponentExample created");
+        console.log(worldService.isActiveWorld());
+        frameLoop.addLoop("test",()=>{
+            //console.log("hello world");
+        });
     }
 
     getType(): string {
