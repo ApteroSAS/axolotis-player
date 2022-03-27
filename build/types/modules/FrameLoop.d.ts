@@ -1,6 +1,6 @@
-import Component from "@root/lib/modules/core/ecs/Component";
-import { LazyServices, Service } from "@root/lib/modules/core/service/LazyServices";
-import { WebpackLazyModule } from "@root/lib/modules/core/loader/WebpackLoader";
+import Component from "./core/ecs/Component";
+import { LazyServices, Service } from "./core/service/LazyServices";
+import { WebpackLazyModule } from "./core/loader/WebpackLoader";
 export declare class Factory implements WebpackLazyModule, Service<FrameLoop> {
     createService(services: LazyServices): Promise<FrameLoop>;
 }

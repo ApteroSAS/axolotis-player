@@ -1,4 +1,4 @@
-import Component from "@root/lib/modules/core/ecs/Component";
+import Component from "../ecs/Component";
 export interface Service<T> {
     createService(services: LazyServices): Promise<T>;
 }

@@ -1,5 +1,5 @@
-import Component from "@root/lib/modules/core/ecs/Component";
-import { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
+import Component from "../ecs/Component";
+import { WorldEntity } from "../ecs/WorldEntity";
 export declare class CodeLoaderComponent implements Component {
     private initialLoading;
     private initialLoadingResolver;

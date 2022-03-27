@@ -14,8 +14,14 @@
       "baseUrl": "./",
       "paths": {
         "@root/*": ["./src/*"]
-      }
+      },
+      "plugins": [
+        {
+          "transform": "typescript-transform-paths",
+          "afterDeclarations": true
+        }
+      ]
     },
     "include": ["src/lib"],
-    "exclude": ["src/lib/**/tests"],
+    "exclude": ["src/lib/**/tests"]
 }

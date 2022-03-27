@@ -1,4 +1,4 @@
-import { Component } from "@root/lib/modules/core/ecs/Component";
+import { Component } from "./Component";
 export interface DestroyableComponent extends Component {
     destroy(): void;
 }

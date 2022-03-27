@@ -1,4 +1,4 @@
-import Entity from "@root/lib/modules/core/ecs/Entity";
+import Entity from "./Entity";
 export declare class WorldEntity extends Entity {
     constructor();
 }

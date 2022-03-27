@@ -1,7 +1,7 @@
-import { WebpackLazyModule } from "@root/lib/modules/core/loader/WebpackLoader";
-import { LazyServices, Service } from "@root/lib/modules/core/service/LazyServices";
-import Component from "@root/lib/modules/core/ecs/Component";
-import { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
+import { WebpackLazyModule } from "./loader/WebpackLoader";
+import { LazyServices, Service } from "./service/LazyServices";
+import Component from "./ecs/Component";
+import { WorldEntity } from "./ecs/WorldEntity";
 export declare class Factory implements WebpackLazyModule, Service<WorldService> {
     constructor();
     createService(services: LazyServices): Promise<WorldService>;
