@@ -4,7 +4,6 @@ import {
 } from "@root/lib/modules/core/loader/CoreInit";
 import Entity from "@root/lib/modules/core/ecs/Entity";
 import { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
-import { AssetsLoader } from "@root/lib/modules/core/loader/AssetsLoader";
 import { CodeLoaderComponent } from "@root/lib/modules/core/loader/CodeLoaderComponent";
 import { LazyServices } from "@root/lib/modules/core/service/LazyServices";
 import { ServiceEntity } from "@root/lib/modules/core/service/ServiceEntity";
@@ -19,7 +18,6 @@ export {
   initHtml,
   Entity,
   WorldEntity,
-  AssetsLoader,
   CodeLoaderComponent,
   LazyServices,
   ServiceEntity,

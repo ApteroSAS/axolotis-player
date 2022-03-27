@@ -1,6 +1,5 @@
 import Component from "@root/lib/modules/core/ecs/Component";
 import { load } from "@root/lib/modules/core/loader/CodeLoader";
-import { loadAssets } from "@root/lib/modules/core/loader/AssetsLoader";
 import { ComponentFactory } from "@root/lib/modules/core/ecs/ComponentFactory";
 import { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
 import { ServiceEntity } from "@root/lib/modules/core/service/ServiceEntity";
