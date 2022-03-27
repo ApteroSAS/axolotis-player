@@ -14,14 +14,25 @@ const domReady = (callBack: () => void) => {
 };
 
 const windowReady = (callBack: () => void) => {
-  if (document.readyState === "complete") {
+  if (document.readyState === "complete" && document.body) {
     callBack();
   } else {
-    window.addEventListener("load", callBack);
+    window.addEventListener("DOMContentLoaded", callBack);
   }
 };
 
-export function initHtml() {
+export function initHtml(
+  config: {
+    onProgress?: (progress: number, total: number) => void;
+    onLoaded?: () => void;
+  } = {}
+) {
+  if (!config.onProgress) {
+    config.onProgress = () => {};
+  }
+  if (!config.onLoaded) {
+    config.onLoaded = () => {};
+  }
   let serviceEntity = new ServiceEntity();
   let world = new WorldEntity();
   world.addComponent(serviceEntity);
@@ -33,17 +44,15 @@ export function initHtml() {
   windowReady(() => {
     let scene: HTMLCollection =
       window.document.body.getElementsByTagName("ax-scene"); //TODO assume only one scene
+    if (!scene || (scene && scene.length == 0)) {
+      console.warn("Axolotis scene not found (no tag ax-scene)");
+      config.onLoaded();
+      return;
+    }
+    console.log(scene);
     codeLoaderComponent
-      .startLoadingJson(world, htmlToJson(scene), (progress, total) => {
-        console.log("[" + progress + "/" + total + "]");
-        const progressbar: any = document.getElementById("progress");
-        progressbar.style.width = `${(progress / total) * 100}%`;
-      })
-      .then(() => {
-        console.log("loading complete");
-        (document.getElementById("progresscontainer") as any).className +=
-          "load";
-      });
+      .startLoadingJson(world, htmlToJson(scene), config.onProgress)
+      .then(config.onLoaded);
   });
 }
 
