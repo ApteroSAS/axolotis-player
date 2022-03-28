@@ -7,7 +7,4 @@ import { ServiceEntity } from "./modules/core/service/ServiceEntity";
 import { WorldService } from "./modules/core/WorldService";
 import { FrameLoop } from "./modules/FrameLoop";
 import { registerLocalModule } from "./modules/core/loader/JsLoader";
-import Component from "./modules/core/ecs/Component";
-import { WebpackLazyModule } from "./modules/core/loader/WebpackLoader";
-import { ComponentFactory } from "./modules/core/ecs/ComponentFactory";
-export { registerLocalModule, Component, WebpackLazyModule, ComponentFactory, initHtml, Entity, WorldEntity, CodeLoaderComponent, LazyServices, ServiceEntity, WorldService, FrameLoop, };
+export { registerLocalModule, initHtml, Entity, WorldEntity, CodeLoaderComponent, LazyServices, ServiceEntity, WorldService, FrameLoop, };

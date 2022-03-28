@@ -6,6 +6,9 @@ import { instanciateLocalAsyncModule } from "@root/lib/modules/core/loader/Local
 let localModules: { [id: string]: () => Promise<any> } = {};
 
 export function registerLocalModule(name: string, module: () => Promise<any>) {
+  if (localModules[name]) {
+    throw new Error("Module already defined");
+  }
   localModules[name] = module;
 }
 
