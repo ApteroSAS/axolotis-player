@@ -1,67 +1,115 @@
  <div align="center">
- <img align="center" width="230" src="https://i.imgur.com/iHgtvmg.png" />
-  <h2>Typescript Library Boilerplate Basic</h2>
-  <blockquote>Minimal Library Starter Kit for your Typescript projects</blockquote>
- 
- <a href="https://www.npmjs.com/package/@hodgef/ts-library-boilerplate-basic"><img src="https://badgen.net/npm/v/@hodgef/ts-library-boilerplate-basic?color=blue" alt="npm version"></a> <a href="https://github.com/hodgef/ts-library-boilerplate"><img src="https://img.shields.io/github/last-commit/hodgef/ts-library-boilerplate" alt="latest commit"></a> <a href="https://github.com/hodgef/ts-library-boilerplate-basic/actions"><img alt="Build Status" src="https://github.com/hodgef/ts-library-boilerplate-basic/workflows/Build/badge.svg?color=green" /></a> <a href="https://github.com/hodgef/ts-library-boilerplate-basic/actions"> <img alt="Publish Status" src="https://github.com/hodgef/ts-library-boilerplate-basic/workflows/Publish/badge.svg?color=green" /></a>
-
-<strong>For a plain Javascript alternative, check out [js-library-boilerplate-basic](https://github.com/hodgef/js-library-boilerplate-basic).</strong>
+ <img align="center" width="230" src="https://cloudflare-ipfs.com/ipfs/bafkreifsgnkf7botlzpwcc2lv57ugwgf3xrmcjrez2kez4qd7o2cs3zjjm" />
+  <h2>Axolotis Player</h2>
+  <blockquote>A player that helps to lazy load smart items in order to compose a metaverse space or 3D websites.</blockquote>
+  <strong></strong>
 
 </div>
 
 ## ⭐️ Features
 
-- Webpack 5
-- Babel 7
-- Hot reloading (`npm start`)
-- Automatic Types file generation (index.d.ts)
-- UMD exports, so your library works everywhere.
-- Jest unit testing
-- Customizable file headers for your build [(Example 1)](https://github.com/hodgef/ts-library-boilerplate-basic/blob/master/build/index.js) [(Example2)](https://github.com/hodgef/ts-library-boilerplate-basic/blob/master/build/css/index.css)
-- Daily [dependabot](https://dependabot.com) dependency updates
+- ECS system https://en.wikipedia.org/wiki/Entity_component_system
+- Scene defined in the DOM, Similar to https://aframe.io/
+```
+<ax-scene>
+    <ax-entity>
+        <ax-component module="ComponentExample" config="{position:{x:1,y:2,z:3}}"></ax-component>
+    </ax-entity>
+    <ax-service module="ServiceExample"></ax-service>
+</ax-scene>
+```
+- Lazy loading of Component and service
+Each module is loaded as needed by the code and can be loaded at runtime.
+<img src="https://cloudflare-ipfs.com/ipfs/bafkreifeh2bhoxjflljq3btgixhhe4w2fh2ibuzmhjmvsjbb7nhsuswzc4" />
+- Scene loaded from multiple origin. Navigate seamlessly between Axolotis-player enabled website
+- Each http page with the Axolotis player is a both a 3D Scene and a regular website. This facilitates SEO.
 
 ## 📦 Getting Started
+### install
 
 ```
-git clone https://github.com/hodgef/ts-library-boilerplate-basic.git myLibrary
-npm install
+yarn add git+https://github.com/ApteroSAS/axolotis-player.git
+import { registerLocalModule,initHtml } from "@root/lib";
+initHtml();
 ```
 
-## 💎 Customization
+### 💎 First component
+A component is part of an Entity in the ECS model
+A scene can have multiple component.
+Is lazy loaded as well.
 
-> Before shipping, make sure to:
+```typescript
+//in Index.ss
+registerLocalModule("ComponentExample", ()=>{return import("@root/demo/page/ComponentExample")});
+```
 
-1. Edit `LICENSE` file
-2. Edit `package.json` information (These will be used to generate the headers for your built files)
-3. Edit `library: "MyLibrary"` with your library's export name in `./webpack.config.js`
+```typescript
+import Component from "@root/lib/modules/core/ecs/Component";
+import { FrameLoop } from "@root/lib/modules/FrameLoop";
+import { WebpackLazyModule } from "@root/lib/modules/core/loader/WebpackLoader";
+import { ComponentFactory } from "@root/lib/modules/core/ecs/ComponentFactory";
+import {ServiceEntity} from "@root/lib";
 
-## 🚀 Deployment
+export class ComponentExample implements Component{
+    constructor(frameLoop:FrameLoop) {
+        // Here you can use the FrameLoop
+    }
 
-1. `npm publish`
-2. Your users can include your library as usual
+    getType(): string {
+        return ComponentExample.name;
+    }
+}
 
-### npm
+export class Factory implements WebpackLazyModule, ComponentFactory<ComponentExample>{
+    async createComponent(world:WorldEntity, config:any): Promise<ComponentExample> {
+        // The factory will load the needed service asynchronously to create an instance of this component. 
+        // Design patern Factory. 
+        // Similar to Angular service injection.
+        let services = world.getFirstComponentByType<ServiceEntity>(ServiceEntity.name);
+        let frameLoop = await services.getService<FrameLoop>("@root/lib/modules/FrameLoop");
+        return new ComponentExample(frameLoop);
+    }
+}
+```
+### 🚀 First Service
+
+A service is a Singleton loaded only once per Axolotis page.
+Is lazy loaded as well.
+
+```typescript
+//in Index.ss
+registerLocalModule("ServiceExample", ()=>{return import("@root/demo/page/ServiceExample")});
+```
+
+```typescript
+import Component from "@root/lib/modules/core/ecs/Component";
+import { FrameLoop } from "@root/lib/modules/FrameLoop";
+import { WebpackLazyModule } from "@root/lib/modules/core/loader/WebpackLoader";
+import { LazyServices, Service } from "@root/lib/modules/core/service/LazyServices";
+
+export class ServiceExample implements Component{
+    constructor(frameLoop:FrameLoop) {
+        // Here you can use the FrameLoop
+    }
+
+    getType(): string {
+        return ServiceExample.name;
+    }
+}
+
+export class Factory implements WebpackLazyModule, Service<ServiceExample>{
+constructor() {}
+
+    async createService(services:LazyServices): Promise<ServiceExample> {
+        let frameLoop = await services.getService<FrameLoop>("@root/lib/modules/FrameLoop");
+        return new ServiceExample(frameLoop,worldService);
+    }
+}
+```
+
+### ✅ Examples / Demo
 
 ```
-import MyLibrary from 'my-library';
-const libraryInstance = new MyLibrary();
+SOON
 ...
 ```
-
-### self-host/cdn
-
-```
-<script src="build/index.js"></script>
-
-const MyLibrary = window.MyLibrary.default;
-const libraryInstance = new MyLibrary();
-...
-```
-
-## ✅ Libraries built with this boilerplate
-
-> Made a library using this starter kit? Share it here by [submitting a pull request](https://github.com/hodgef/ts-library-boilerplate-basic/pulls)!
-
-- [simple-keyboard](https://github.com/hodgef/simple-keyboard) - Javascript Virtual Keyboard
-- [react-simple-keyboard](https://github.com/hodgef/react-simple-keyboard) - React Virtual Keyboard
-- [simple-keyboard-layouts](https://github.com/hodgef/simple-keyboard-layouts) - Keyboard layouts for simple-keyboard
