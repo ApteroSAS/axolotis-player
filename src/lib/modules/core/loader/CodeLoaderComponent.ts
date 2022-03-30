@@ -8,47 +8,11 @@ import { instanciateJsAsyncModule } from "@root/lib/modules/core/loader/JsLoader
 export class CodeLoaderComponent implements Component {
   private initialLoading: Promise<any>;
   private initialLoadingResolver: ((value: any) => void) | undefined;
-  public roomUrl: string = "";
 
   constructor() {
     this.initialLoading = new Promise<any>((resolve) => {
       this.initialLoadingResolver = resolve;
     });
-  }
-
-  cleanUpRoomUrl(roomUrl: string) {
-    if (!roomUrl.endsWith(".json")) {
-      roomUrl += "/room.json";
-    }
-    roomUrl.replace("./", "");
-    if (!roomUrl.startsWith("http")) {
-      roomUrl = window.location.origin + "/" + roomUrl;
-    }
-    return roomUrl;
-  }
-
-  async loadRoomDefinitionFile(roomUrl: string) {
-    roomUrl = this.cleanUpRoomUrl(roomUrl);
-    this.roomUrl = roomUrl;
-    let response = await fetch(roomUrl);
-    return await response.json();
-  }
-
-  async searchRoomDefinitionFile() {
-    //how to find a room
-    //1 - search in window.axolotis.room
-    //2 - search in meta tag
-    if ((window as any).axolotis && (window as any).axolotis.room) {
-      return (window as any).axolotis.room;
-    }
-    // @ts-ignore
-    for (const tag of window.document.head.children) {
-      if (tag.tagName === "META" && (tag as any).name === "axolotis:room") {
-        let roomUrl = (tag as any).content;
-        return this.loadRoomDefinitionFile(roomUrl);
-      }
-    }
-    throw new Error("No room definition found in meta axolotis:room");
   }
 
   getType(): string {

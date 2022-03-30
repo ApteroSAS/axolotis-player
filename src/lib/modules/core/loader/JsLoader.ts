@@ -34,7 +34,7 @@ export async function instanciateJsAsyncModule<T>(
     );
   } else {
     //TODO remote module "https://"
-    throw new Error("unkown module - plese register it - " + moduleName);
+    throw new Error("unknown module - please register it - " + moduleName);
   }
   return module;
 }

@@ -10,7 +10,7 @@ import { WebpackLazyModule } from "@root/lib/modules/core/loader/WebpackLoader";
 export class Factory implements WebpackLazyModule, Service<FrameLoop> {
   async createService(services: LazyServices): Promise<FrameLoop> {
     let codeLoader = await services.getService<CodeLoaderComponent>(
-      "@root/lib/modules/core/loader/CodeLoaderService"
+      "@aptero/axolotis-player/modules/core/loader/CodeLoaderService"
     );
     let module = new FrameLoop();
     codeLoader.awaitInitialLoading().then(() => {

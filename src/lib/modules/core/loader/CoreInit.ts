@@ -21,12 +21,54 @@ const windowReady = (callBack: () => void) => {
   }
 };
 
+export async function initHtmlFromUrl(
+  url: string,
+  config: {
+    onProgress?: (progress: number, total: number) => void;
+    onLoaded?: () => void;
+  } = {}
+): Promise<WorldEntity> {
+  if (!config.onProgress) {
+    config.onProgress = (progress: number, total: number) => {
+      console.log("[" + url + "] : [" + progress + "/" + total + "]");
+    };
+  }
+  if (!config.onLoaded) {
+    config.onLoaded = () => {
+      console.log("[" + url + "] : loading complete");
+    };
+  }
+  let serviceEntity = new ServiceEntity();
+  let world = new WorldEntity();
+  world.addComponent(serviceEntity);
+  let codeLoaderComponent = new CodeLoaderComponent();
+  serviceEntity.setService(
+    "@aptero/axolotis-player/modules/core/loader/CodeLoaderService",
+    codeLoaderComponent
+  );
+  const r = await fetch(url);
+  const html = await r.text();
+  const parser = new DOMParser();
+  const document = parser.parseFromString(html, "text/html");
+  let scene: HTMLCollection = document.body.getElementsByTagName("ax-scene"); //TODO assume only one scene
+  if (!scene || (scene && scene.length == 0)) {
+    console.warn("Axolotis scene not found (no tag ax-scene)");
+    config.onLoaded();
+    return;
+  }
+  console.log(scene);
+  codeLoaderComponent
+    .startLoadingJson(world, htmlToJson(scene), config.onProgress)
+    .then(config.onLoaded);
+  return world;
+}
+
 export function initHtml(
   config: {
     onProgress?: (progress: number, total: number) => void;
     onLoaded?: () => void;
   } = {}
-) {
+): WorldEntity {
   if (!config.onProgress) {
     config.onProgress = (progress: number, total: number) => {
       console.log("[" + progress + "/" + total + "]");
@@ -42,7 +84,7 @@ export function initHtml(
   world.addComponent(serviceEntity);
   let codeLoaderComponent = new CodeLoaderComponent();
   serviceEntity.setService(
-    "@root/lib/modules/core/loader/CodeLoaderService",
+    "@aptero/axolotis-player/modules/core/loader/CodeLoaderService",
     codeLoaderComponent
   );
   windowReady(() => {
@@ -58,6 +100,7 @@ export function initHtml(
       .startLoadingJson(world, htmlToJson(scene), config.onProgress)
       .then(config.onLoaded);
   });
+  return world;
 }
 
 function htmlToJson(scene: HTMLCollection): {

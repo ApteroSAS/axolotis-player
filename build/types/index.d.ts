@@ -1,4 +1,4 @@
-import { initHtml } from "./modules/core/loader/CoreInit";
+import { initHtml, initHtmlFromUrl } from "./modules/core/loader/CoreInit";
 import Entity from "./modules/core/ecs/Entity";
 import { WorldEntity } from "./modules/core/ecs/WorldEntity";
 import { CodeLoaderComponent } from "./modules/core/loader/CodeLoaderComponent";
@@ -6,5 +6,5 @@ import { LazyServices } from "./modules/core/service/LazyServices";
 import { ServiceEntity } from "./modules/core/service/ServiceEntity";
 import { WorldService } from "./modules/core/WorldService";
 import { FrameLoop } from "./modules/FrameLoop";
-import { registerLocalModule } from "./modules/core/loader/JsLoader";
-export { registerLocalModule, initHtml, Entity, WorldEntity, CodeLoaderComponent, LazyServices, ServiceEntity, WorldService, FrameLoop, };
+import { registerLocalModule, registerLocalModuleList } from "./modules/core/loader/JsLoader";
+export { registerLocalModule, registerLocalModuleList, initHtml, initHtmlFromUrl, Entity, WorldEntity, CodeLoaderComponent, LazyServices, ServiceEntity, WorldService, FrameLoop, };

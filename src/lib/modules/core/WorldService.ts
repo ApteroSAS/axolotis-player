@@ -64,7 +64,7 @@ export class WorldService implements Component {
     //new world service is new world event
     services
       .getService<CodeLoaderComponent>(
-        "@root/lib/modules/core/loader/CodeLoaderService"
+        "@aptero/axolotis-player/modules/core/loader/CodeLoaderService"
       )
       .then(async (codeLoader) => {
         codeLoader.awaitInitialLoading();
