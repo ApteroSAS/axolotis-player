@@ -28,10 +28,14 @@ export function initHtml(
   } = {}
 ) {
   if (!config.onProgress) {
-    config.onProgress = () => {};
+    config.onProgress = (progress: number, total: number) => {
+      console.log("[" + progress + "/" + total + "]");
+    };
   }
   if (!config.onLoaded) {
-    config.onLoaded = () => {};
+    config.onLoaded = () => {
+      console.log("loading complete");
+    };
   }
   let serviceEntity = new ServiceEntity();
   let world = new WorldEntity();
@@ -96,28 +100,4 @@ function htmlToJson(scene: HTMLCollection): {
     ret.services.push({ module: service.getAttribute("module") });
   }
   return ret;
-}
-
-export function initJson() {
-  let serviceEntity = new ServiceEntity();
-  let world = new WorldEntity();
-  world.addComponent(serviceEntity);
-  let codeLoaderComponent = new CodeLoaderComponent();
-  serviceEntity.setService(
-    "@root/lib/modules/core/loader/CodeLoaderService",
-    codeLoaderComponent
-  );
-  codeLoaderComponent.searchRoomDefinitionFile().then((json) => {
-    codeLoaderComponent
-      .startLoadingJson(world, json.entities, (progress, total) => {
-        console.log("[" + progress + "/" + total + "]");
-        const progressbar: any = document.getElementById("progress");
-        progressbar.style.width = `${(progress / total) * 100}%`;
-      })
-      .then(() => {
-        console.log("loading complete");
-        (document.getElementById("progresscontainer") as any).className +=
-          "load";
-      });
-  });
 }

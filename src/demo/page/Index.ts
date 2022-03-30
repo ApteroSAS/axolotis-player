@@ -1,6 +1,23 @@
-import { registerLocalModule,initHtml } from "@root/lib";
+import {registerLocalModule, initHtml} from "@root/lib";
 
-registerLocalModule("ServiceExample", ()=>{return import("@root/demo/page/ServiceExample")});
-registerLocalModule("ComponentExample", ()=>{return import("@root/demo/page/ComponentExample")});
+registerLocalModule("@local/ServiceExample", async () => {
+    const module = await import("@root/demo/page/ServiceExample");
+    return {module, classname: module.Factory.name}
+});
 
-initHtml();
+registerLocalModule("@local/ComponentExample", async () => {
+    const module = await import("@root/demo/page/ComponentExample");
+    return {module, classname: module.Factory.name}
+});
+
+initHtml({
+    onProgress: (progress, total) => {
+        console.log("[" + progress + "/" + total + "]");
+        const progressbar: any = document.getElementById("progress");
+        progressbar.style.width = `${(progress / total) * 100}%`;
+    },
+    onLoaded: () => {
+        console.log("loading complete");
+        (document.getElementById("progresscontainer") as any).className += "load";
+    }
+});

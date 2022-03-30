@@ -81,10 +81,9 @@ export class CodeLoaderComponent implements Component {
         promises.push(
           () =>
             new Promise(async (resolve, reject) => {
-              let classname = componentDef.classname || "Factory";
               const module = await instanciateJsAsyncModule<
                 ComponentFactory<Component>
-              >(componentDef.module, classname);
+              >(componentDef.module);
               let component = await module.createComponent(world, config || {});
               if (!component.getType) {
                 throw new Error(

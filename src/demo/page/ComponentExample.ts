@@ -24,8 +24,8 @@ export class Factory implements WebpackLazyModule, ComponentFactory<ComponentExa
 
     async createComponent(world:WorldEntity, config:any): Promise<ComponentExample> {
         let services = world.getFirstComponentByType<ServiceEntity>(ServiceEntity.name);
-        let frameLoop = await services.getService<FrameLoop>("@root/lib/modules/FrameLoop");
-        let worldService = await services.getService<WorldService>("@root/lib/modules/core/WorldService");
+        let frameLoop = await services.getService<FrameLoop>("@aptero/axolotis-player/modules/FrameLoop");
+        let worldService = await services.getService<WorldService>("@aptero/axolotis-player/modules/core/WorldService");
         return new ComponentExample(frameLoop,worldService);
     }
 }

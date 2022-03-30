@@ -1,3 +1,2 @@
-export declare function instanciateLocalAsyncModule<T>(moduleName: string, classname: string, localModules?: {
-    [id: string]: () => Promise<any>;
-}): Promise<T>;
+import { LocalModules } from "./JsLoader";
+export declare function instanciateLocalAsyncModule<T>(fqcn: string, localModules?: LocalModules): Promise<T>;

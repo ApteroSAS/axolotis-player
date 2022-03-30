@@ -1,1 +1,6 @@
-export declare function loadModuleAsync(name: any): Promise<any>;
+export declare function loadModules(): {
+    [id: string]: () => Promise<{
+        module: any;
+        classname: string;
+    }>;
+};
