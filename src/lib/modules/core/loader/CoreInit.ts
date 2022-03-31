@@ -57,9 +57,12 @@ export async function initHtmlFromUrl(
     return;
   }
   console.log(scene);
-  codeLoaderComponent
-    .startLoadingJson(world, htmlToJson(scene), config.onProgress)
-    .then(config.onLoaded);
+  await codeLoaderComponent.startLoadingJson(
+    world,
+    htmlToJson(scene),
+    config.onProgress
+  );
+  config.onLoaded();
   return world;
 }
 

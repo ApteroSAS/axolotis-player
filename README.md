@@ -110,6 +110,5 @@ constructor() {}
 ### ✅ Examples / Demo
 
 ```
-SOON
-...
+https://github.com/ApteroSAS/axolotis-core-plugins
 ```
