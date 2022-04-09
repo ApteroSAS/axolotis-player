@@ -7,8 +7,17 @@ export type Module = () => Promise<{ module: any; classname: string }>;
 export interface LocalModules {
   [id: string]: Module;
 }
+declare const window: any;
 
-let localModules: LocalModules = {};
+if (window) {
+  if (!window.axolotis) {
+    window.axolotis = {};
+  }
+  if (!window.axolotis.localModule) {
+    window.axolotis.localModule = {};
+  }
+}
+let localModules: LocalModules = window.axolotis.localModule || {};
 
 export function registerLocalModule(name: string, module: Module) {
   if (localModules[name]) {
@@ -17,8 +26,14 @@ export function registerLocalModule(name: string, module: Module) {
   localModules[name] = module;
 }
 
-export function registerLocalModuleList(localModulesList: LocalModules) {
-  localModules = { ...localModules, ...localModulesList };
+export function registerLocalModuleList(
+  localModulesList: LocalModules,
+  verbose: boolean = false
+) {
+  if (verbose) {
+    console.log("imported module :", localModulesList);
+  }
+  Object.assign(localModules, localModulesList);
 }
 
 registerLocalModuleList(loadModules());
@@ -34,6 +49,7 @@ export async function instanciateJsAsyncModule<T>(
     );
   } else {
     //TODO remote module "https://"
+    console.log("local module installed:", localModules);
     throw new Error("unknown module - please register it - " + moduleName);
   }
   return module;
