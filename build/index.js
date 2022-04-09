@@ -99,49 +99,48 @@
           t.r(o),
             t.d(o, {
               Factory: function () {
-                return r;
+                return i;
               },
               WorldService: function () {
-                return d;
-              },
-              registerNewWorld: function () {
                 return c;
               },
+              registerNewWorld: function () {
+                return l;
+              },
             });
-          var n = t(454);
-          class r {
+          var n = t(454),
+            r = t(241);
+          class i {
             constructor() {}
             async createService(e) {
-              return new d(e);
+              return new c(e);
             }
           }
-          let i = -1,
-            s = [],
-            a = [],
-            l = [];
-          function c(e) {
-            s.push(e),
-              i < 0 &&
-                ((i = 0),
-                (window.axolotis.world = s[i]),
-                (window.axolotis.activeWorld = i));
+          let s = [],
+            a = [];
+          function l(e) {
+            (0, r.G)("worlds").worlds.push(e),
+              (0, r.G)("worlds").activeWorld < 0 &&
+                (((0, r.G)("worlds").activeWorld = 0),
+                ((0, r.G)("worlds").world = (0, r.G)("worlds").worlds[
+                  (0, r.G)("worlds").activeWorld
+                ]));
           }
-          window &&
-            (window.axolotis || (window.axolotis = {}),
-            (window.axolotis.worlds = s),
-            (window.axolotis.activeWorld = i));
-          class d {
+          (0, r.G)("worlds").activeWorld ||
+            (((0, r.G)("worlds").worlds = []),
+            ((0, r.G)("worlds").activeWorld = -1));
+          class c {
             constructor(e) {
-              var o, t, r;
-              (r = void 0),
+              var o, t, i;
+              (i = void 0),
                 (t = "world") in (o = this)
                   ? Object.defineProperty(o, t, {
-                      value: r,
+                      value: i,
                       enumerable: !0,
                       configurable: !0,
                       writable: !0,
                     })
-                  : (o[t] = r),
+                  : (o[t] = i),
                 console.log("info");
               let s = null;
               for (const o of this.getWorlds()) {
@@ -155,18 +154,19 @@
                   )
                   .then(async (e) => {
                     e.awaitInitialLoading();
-                    for (const e of l) e();
+                    for (const e of a) e();
                   }),
-                i >= 0 && this.setActiveWorldByNumber(i);
+                (0, r.G)("worlds").activeWorld >= 0 &&
+                  this.setActiveWorldByNumber((0, r.G)("worlds").activeWorld);
             }
             getType() {
-              return d.name;
+              return c.name;
             }
             getWorlds() {
-              return s;
+              return (0, r.G)("worlds").worlds;
             }
             getActiveWorld() {
-              return s[i];
+              return this.getWorlds()[(0, r.G)("worlds").activeWorld];
             }
             isActiveWorld() {
               return this.world == this.getActiveWorld();
@@ -174,12 +174,12 @@
             addOnWorldChangeCallback(e) {
               let o =
                 arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
-              a.push(e), o && e();
+              s.push(e), o && e();
             }
             addOnWorldAdded(e) {
               let o =
                 arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
-              l.push(e), o && e();
+              a.push(e), o && e();
             }
             setActiveWorld(e) {
               for (let o = 0; o < this.getWorlds().length; o++)
@@ -188,13 +188,10 @@
               throw new Error();
             }
             setActiveWorldByNumber(e) {
-              if (i != e) {
-                (i = e),
-                  window &&
-                    window.axolotis &&
-                    ((window.axolotis.activeWorld = i),
-                    (window.axolotis.world = s[i]));
-                for (const e of a) e();
+              if ((0, r.G)("worlds").activeWorld != e) {
+                ((0, r.G)("worlds").activeWorld = e),
+                  ((0, r.G)("worlds").world = this.getWorlds()[e]);
+                for (const e of s) e();
               }
             }
           }
@@ -210,26 +207,27 @@
             dK: function () {
               return i;
             },
-          }),
-            window &&
-              (window.axolotis || (window.axolotis = {}),
-              window.axolotis.localModule ||
-                (window.axolotis.localModule = {}));
-          let n = window.axolotis.localModule || {};
+          });
+          var n = t(241);
           function r(e, o) {
-            if (n[e]) throw new Error("Module already defined");
-            n[e] = o;
+            if ((0, n.G)("localModules")[e])
+              throw new Error("Module already defined");
+            (0, n.G)("localModules")[e] = o;
           }
           function i(e) {
             let o =
               arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
-            o && console.log("imported module :", e), Object.assign(n, e);
+            o && console.log("imported module :", e),
+              Object.assign((0, n.G)("localModules"), e);
           }
           async function s(e) {
             let o = null;
-            if (!n[e])
+            if (!(0, n.G)("localModules")[e])
               throw (
-                (console.log("local module installed:", n),
+                (console.log(
+                  "local module installed:",
+                  (0, n.G)("localModules")
+                ),
                 new Error("unknown module - please register it - " + e))
               );
             return (
@@ -249,7 +247,7 @@
                     return new o();
                 }
                 throw new Error("invalid factory " + e + " - " + t.classname);
-              })(e, n)),
+              })(e, (0, n.G)("localModules"))),
               o
             );
           }
@@ -269,6 +267,18 @@
               return e;
             })()
           );
+        },
+        241: function (e, o, t) {
+          t.d(o, {
+            G: function () {
+              return r;
+            },
+          }),
+            window && (window.axolotis || (window.axolotis = {}));
+          var n = window.axolotis;
+          function r(e) {
+            return n[e] || (n[e] = {}), n[e];
+          }
         },
         240: function (e, o, t) {
           t.d(o, {

@@ -7,6 +7,7 @@ import Component from "@root/lib/modules/core/ecs/Component";
 import { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
 import { ServiceEntity } from "@root/lib/modules/core/service/ServiceEntity";
 import { CodeLoaderComponent } from "@root/lib/modules/core/loader/CodeLoaderComponent";
+import { getGlobalStorage } from "@root/lib/modules/core/loader/global";
 
 export class Factory implements WebpackLazyModule, Service<WorldService> {
   constructor() {}
@@ -16,30 +17,29 @@ export class Factory implements WebpackLazyModule, Service<WorldService> {
   }
 }
 
-//(await axolotis.worlds[1].components[0].service["@root/lib/modules/core/WorldService:Factory"]).setActiveWorld(1)
-
-declare let window: any;
-
-let activeWorld = -1;
-let worlds: WorldEntity[] = [];
 let addOnWorldChangeCallback: (() => void)[] = []; //do not use events emitter here to avoid surcharing dependencies in the code modules
 let addOnWorldAddedCallback: (() => void)[] = []; //do not use events emitter here to avoid surcharing dependencies in the code modules
-
-export function registerNewWorld(worldEntity: WorldEntity) {
-  worlds.push(worldEntity);
-  if (activeWorld < 0) {
-    activeWorld = 0;
-    window.axolotis.world = worlds[activeWorld];
-    window.axolotis.activeWorld = activeWorld;
-  }
+interface Worlds {
+  world: WorldEntity;
+  activeWorld: number;
+  worlds: WorldEntity[];
 }
 
-if (window) {
-  if (!window.axolotis) {
-    window.axolotis = {};
+if (!getGlobalStorage<Worlds>("worlds").activeWorld) {
+  //initialize world service
+  getGlobalStorage<Worlds>("worlds").worlds = [];
+  getGlobalStorage<Worlds>("worlds").activeWorld = -1;
+}
+
+export function registerNewWorld(worldEntity: WorldEntity) {
+  getGlobalStorage<Worlds>("worlds").worlds.push(worldEntity);
+  if (getGlobalStorage<Worlds>("worlds").activeWorld < 0) {
+    getGlobalStorage<Worlds>("worlds").activeWorld = 0;
+    getGlobalStorage<Worlds>("worlds").world =
+      getGlobalStorage<Worlds>("worlds").worlds[
+        getGlobalStorage<Worlds>("worlds").activeWorld
+      ];
   }
-  window.axolotis.worlds = worlds;
-  window.axolotis.activeWorld = activeWorld;
 }
 
 export class WorldService implements Component {
@@ -73,8 +73,10 @@ export class WorldService implements Component {
         }
       });
 
-    if (activeWorld >= 0) {
-      this.setActiveWorldByNumber(activeWorld);
+    if (getGlobalStorage<Worlds>("worlds").activeWorld >= 0) {
+      this.setActiveWorldByNumber(
+        getGlobalStorage<Worlds>("worlds").activeWorld
+      );
     }
   }
 
@@ -83,11 +85,11 @@ export class WorldService implements Component {
   }
 
   getWorlds() {
-    return worlds;
+    return getGlobalStorage<Worlds>("worlds").worlds;
   }
 
   getActiveWorld() {
-    return worlds[activeWorld];
+    return this.getWorlds()[getGlobalStorage<Worlds>("worlds").activeWorld];
   }
 
   isActiveWorld() {
@@ -119,12 +121,9 @@ export class WorldService implements Component {
   }
 
   setActiveWorldByNumber(number: number) {
-    if (activeWorld != number) {
-      activeWorld = number;
-      if (window && window.axolotis) {
-        window.axolotis.activeWorld = activeWorld;
-        window.axolotis.world = worlds[activeWorld];
-      }
+    if (getGlobalStorage<Worlds>("worlds").activeWorld != number) {
+      getGlobalStorage<Worlds>("worlds").activeWorld = number;
+      getGlobalStorage<Worlds>("worlds").world = this.getWorlds()[number];
       for (const callback of addOnWorldChangeCallback) {
         callback();
       }
