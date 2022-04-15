@@ -1,4 +1,6 @@
- <div align="center">
+![CircleCI](https://img.shields.io/circleci/build/github/ApteroSAS/axolotis-player/main?token=31ab90ba9847874df906492621e7b6861e360ef4) ![GitHub file size in bytes](https://img.shields.io/github/size/ApteroSAS/axolotis-player/build/index.js) ![Codecov](https://img.shields.io/codecov/c/github/ApteroSAS/axolotis-player?token=e54fef23-7109-45f9-9490-c8a2cee60598)
+
+<div align="center">
  <img align="center" width="230" src="https://cloudflare-ipfs.com/ipfs/bafkreifsgnkf7botlzpwcc2lv57ugwgf3xrmcjrez2kez4qd7o2cs3zjjm" />
   <h2>Axolotis Player</h2>
   <blockquote>A player that helps to lazy load smart items in order to compose a metaverse space or 3D websites.</blockquote>
