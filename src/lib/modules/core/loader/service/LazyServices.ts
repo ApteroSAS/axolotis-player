@@ -9,6 +9,10 @@ export class LazyServices {
 
   service: { [id: string]: Promise<Component> | undefined } = {};
 
+  getWorld(): WorldEntity {
+    return this.world;
+  }
+
   setService(
     moduleName: string,
     service: Component,

@@ -89,10 +89,13 @@ function htmlToJson(scene: HTMLCollection): WorldDefinition {
     let entityRet = { components: [] };
 
     for (const componentEl of entity.getElementsByTagName("ax-component")) {
-      //convert relaxed json to proper json
-      let correctJson = componentEl
-        .getAttribute("config")
-        .replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
+      let correctJson = JSON.stringify({});
+      if (componentEl.getAttribute("config")) {
+        //convert relaxed json to proper json
+        correctJson = componentEl
+          .getAttribute("config")
+          .replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
+      }
       let component = {
         module: componentEl.getAttribute("module"),
         config: JSON.parse(correctJson),

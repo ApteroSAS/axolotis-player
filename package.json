@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "Axolotis - player",
   "main": "./build/index.js",
-  "types": "./build/types/*.d.ts",
+  "types": "./build/types/index.d.ts",
   "exports": {
     ".": "./build/index.js"
   },

@@ -10,7 +10,7 @@ export async function instantiateAsyncModule<T>(
   moduleStorage: LocalModules
 ): Promise<T> {
   let module = null;
-  if (moduleStorage) {
+  if (moduleStorage && moduleStorage[moduleName]) {
     module = await instantiateLocalAsyncModule<ComponentFactory<Component>>(
       moduleName,
       moduleStorage

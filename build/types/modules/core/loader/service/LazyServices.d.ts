@@ -6,6 +6,7 @@ export declare class LazyServices {
     service: {
         [id: string]: Promise<Component> | undefined;
     };
+    getWorld(): WorldEntity;
     setService(moduleName: string, service: Component, classname?: string): void;
     getService<T extends Component>(moduleName: string): Promise<T>;
 }
