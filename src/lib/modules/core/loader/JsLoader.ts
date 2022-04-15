@@ -4,7 +4,6 @@ import {
   instantiateLocalAsyncModule,
   LocalModules,
 } from "@root/lib/modules/core/loader/LocalLoader";
-import { getGlobalStorage } from "@root/lib/modules/core/loader/global";
 
 export async function instantiateAsyncModule<T>(
   moduleName: string,
