@@ -11,8 +11,8 @@
 export { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
 
 //loader
-export {getGlobalStorage} from "@root/lib/modules/core/loader/Global";
-export {CODE_LOADER_MODULE_NAME} from "@root/lib/modules/core/loader/BasicInit";
+export { getGlobalStorage } from "@root/lib/modules/core/loader/Global";
+export { CODE_LOADER_MODULE_NAME } from "@root/lib/modules/core/loader/BasicInit";
 export {
   initHtml,
   initHtmlFromUrl,
