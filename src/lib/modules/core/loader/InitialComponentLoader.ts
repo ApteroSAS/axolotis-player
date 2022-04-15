@@ -6,9 +6,7 @@ import { instantiateAsyncModule } from "@root/lib/modules/core/loader/JsLoader";
 import { WorldDefinition } from "@root/lib/modules/core/loader/BasicInit";
 import {
   LocalModules,
-  Module,
 } from "@root/lib/modules/core/loader/LocalLoader";
-import { getGlobalStorage } from "@root/lib/modules/core/loader/Global";
 
 export class InitialComponentLoader implements Component {
   private initialLoading: Promise<any>;

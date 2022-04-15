@@ -8,14 +8,6 @@ import {
 export const BUILD_VERSION = require("../../../../../package.json").version;
 console.log("Axolotis-player version :" + BUILD_VERSION);
 
-const domReady = (callBack: () => void) => {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", callBack);
-  } else {
-    callBack();
-  }
-};
-
 const windowReady = (callBack: () => void) => {
   if (document.readyState === "complete" && document.body) {
     callBack();

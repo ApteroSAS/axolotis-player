@@ -1,7 +1,7 @@
 import Component from "@root/lib/modules/core/ecs/Component";
 import { instantiateAsyncModule } from "@root/lib/modules/core/loader/JsLoader";
 import { Service } from "@root/lib/modules/core/ecs/Service";
-import { InitialComponentLoader, Services, WorldEntity } from "@root/lib";
+import { InitialComponentLoader, WorldEntity } from "@root/lib";
 import { CODE_LOADER_MODULE_NAME } from "@root/lib/modules/core/loader/BasicInit";
 
 export class LazyServices {
