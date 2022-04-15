@@ -145,13 +145,14 @@
 </head>
 
 <body>
-Press F12
-
+<p>
+    This is a basic axolotis-player example featuring the creation of components and services.
+</p>
 <ax-scene>
     <ax-entity>
-        <ax-component module="@local/ComponentExample" config="{position:{x:1,y:2,z:3}}"></ax-component>
+        <ax-component module="@local/ComponentExample" config='{text:"component1 created"}'></ax-component>
+        <ax-component module="@local/ComponentExample" config='{text:"component2 created"}'></ax-component>
     </ax-entity>
-    <ax-service module="@local/ServiceExample"></ax-service>
 </ax-scene>
 
 <div id="progresscontainer">

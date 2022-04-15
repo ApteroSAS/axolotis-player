@@ -7,4 +7,4 @@ export declare function initHtmlFromUrl(url: string, config?: {
 export declare function initHtml(config?: {
     onProgress?: (progress: number, total: number) => void;
     onLoaded?: () => void;
-}): WorldEntity;
+}): void;

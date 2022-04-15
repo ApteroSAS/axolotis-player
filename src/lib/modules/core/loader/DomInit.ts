@@ -1,9 +1,12 @@
-import { CodeLoaderComponent } from "@root/lib/modules/core/loader/CodeLoaderComponent";
-import { ServiceEntity } from "@root/lib/modules/core/service/ServiceEntity";
 import { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
+import {
+  createWorld,
+  WorldDefinition,
+  WorldDefinitionV2,
+} from "@root/lib/modules/core/loader/BasicInit";
 
 export const BUILD_VERSION = require("../../../../../package.json").version;
-console.log(BUILD_VERSION);
+console.log("Axolotis-player version :" + BUILD_VERSION);
 
 const domReady = (callBack: () => void) => {
   if (document.readyState === "loading") {
@@ -38,14 +41,6 @@ export async function initHtmlFromUrl(
       console.log("[" + url + "] : loading complete");
     };
   }
-  let serviceEntity = new ServiceEntity();
-  let world = new WorldEntity();
-  world.addComponent(serviceEntity);
-  let codeLoaderComponent = new CodeLoaderComponent();
-  serviceEntity.setService(
-    "@aptero/axolotis-player/modules/core/loader/CodeLoaderService",
-    codeLoaderComponent
-  );
   const r = await fetch(url);
   const html = await r.text();
   const parser = new DOMParser();
@@ -57,11 +52,7 @@ export async function initHtmlFromUrl(
     return;
   }
   console.log(scene);
-  await codeLoaderComponent.startLoadingJson(
-    world,
-    htmlToJson(scene),
-    config.onProgress
-  );
+  const world = await createWorld(htmlToJson(scene), config.onProgress);
   config.onLoaded();
   return world;
 }
@@ -71,7 +62,7 @@ export function initHtml(
     onProgress?: (progress: number, total: number) => void;
     onLoaded?: () => void;
   } = {}
-): WorldEntity {
+) {
   if (!config.onProgress) {
     config.onProgress = (progress: number, total: number) => {
       console.log("[" + progress + "/" + total + "]");
@@ -82,14 +73,6 @@ export function initHtml(
       console.log("loading complete");
     };
   }
-  let serviceEntity = new ServiceEntity();
-  let world = new WorldEntity();
-  world.addComponent(serviceEntity);
-  let codeLoaderComponent = new CodeLoaderComponent();
-  serviceEntity.setService(
-    "@aptero/axolotis-player/modules/core/loader/CodeLoaderService",
-    codeLoaderComponent
-  );
   windowReady(() => {
     let scene: HTMLCollection =
       window.document.body.getElementsByTagName("ax-scene"); //TODO assume only one scene
@@ -99,33 +82,18 @@ export function initHtml(
       return;
     }
     console.log(scene);
-    codeLoaderComponent
-      .startLoadingJson(world, htmlToJson(scene), config.onProgress)
-      .then(config.onLoaded);
+    createWorld(htmlToJson(scene), config.onProgress).then(config.onLoaded);
   });
-  return world;
 }
 
-function htmlToJson(scene: HTMLCollection): {
-  version: string;
-  entities: {
-    components: {
-      module: string;
-      config: any;
-      classname: string | undefined;
-    }[];
-  }[];
-  services: { module: string }[];
-} {
+function htmlToJson(scene: HTMLCollection): WorldDefinition {
   let sceneEl = scene[0];
-  const ret = {
+  const ret: WorldDefinitionV2 = {
     version: "2.0",
     entities: [],
-    services: [],
   };
   // @ts-ignore
   for (const entity of sceneEl.getElementsByTagName("ax-entity")) {
-    //§§§ ICI sdhdfhdfshdf
     let entityRet = { components: [] };
 
     for (const componentEl of entity.getElementsByTagName("ax-component")) {
@@ -140,10 +108,6 @@ function htmlToJson(scene: HTMLCollection): {
       entityRet.components.push(component);
     }
     ret.entities.push(entityRet);
-  }
-  // @ts-ignore
-  for (const service of sceneEl.getElementsByTagName("ax-service")) {
-    ret.services.push({ module: service.getAttribute("module") });
   }
   return ret;
 }

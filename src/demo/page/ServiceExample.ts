@@ -1,12 +1,20 @@
 import Component from "@root/lib/modules/core/ecs/Component";
-import { FrameLoop } from "@root/lib/modules/FrameLoop";
-import { WebpackLazyModule } from "@root/lib/modules/core/loader/WebpackLoader";
-import { LazyServices, Service } from "@root/lib/modules/core/service/LazyServices";
-import { WorldService } from "@root/lib/modules/core/WorldService";
+import { LazyServices } from "@root/lib/modules/core/loader/service/LazyServices";
+import {Service} from "../../lib/modules/core/ecs/Service";
 
 export class ServiceExample implements Component{
-    constructor(frameLoop:FrameLoop,worldService:WorldService) {
+    constructor() {
         console.log("ServiceExample created");
+    }
+
+    addTextToElement(text:string){
+        console.log("ServiceExample serviceFunction : "+text);
+        if (typeof window !== "undefined") {
+            let tag = document.createElement("p");
+            let textNode = document.createTextNode(text);
+            tag.appendChild(textNode);
+            document.body.appendChild(tag);
+        }
     }
 
     getType(): string {
@@ -14,13 +22,11 @@ export class ServiceExample implements Component{
     }
 }
 
-export class Factory implements WebpackLazyModule, Service<ServiceExample>{
+export class Factory implements Service<ServiceExample>{
     constructor() {}
 
     async createService(services:LazyServices): Promise<ServiceExample> {
-        let frameLoop = await services.getService<FrameLoop>("@aptero/axolotis-player/modules/FrameLoop");
-        let worldService = await services.getService<WorldService>("@aptero/axolotis-player/modules/core/WorldService");
-        return new ServiceExample(frameLoop,worldService);
+        return new ServiceExample();
     }
 }
 

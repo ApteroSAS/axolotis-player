@@ -2,12 +2,18 @@ import Component from "@root/lib/modules/core/ecs/Component";
 import { load } from "@root/lib/modules/core/loader/CodeLoader";
 import { ComponentFactory } from "@root/lib/modules/core/ecs/ComponentFactory";
 import { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
-import { ServiceEntity } from "@root/lib/modules/core/service/ServiceEntity";
-import { instanciateJsAsyncModule } from "@root/lib/modules/core/loader/JsLoader";
+import { instantiateAsyncModule } from "@root/lib/modules/core/loader/JsLoader";
+import { WorldDefinition } from "@root/lib/modules/core/loader/BasicInit";
+import {
+  LocalModules,
+  Module,
+} from "@root/lib/modules/core/loader/LocalLoader";
+import { getGlobalStorage } from "@root/lib/modules/core/loader/Global";
 
-export class CodeLoaderComponent implements Component {
+export class InitialComponentLoader implements Component {
   private initialLoading: Promise<any>;
   private initialLoadingResolver: ((value: any) => void) | undefined;
+  private moduleStorage: LocalModules;
 
   constructor() {
     this.initialLoading = new Promise<any>((resolve) => {
@@ -16,28 +22,27 @@ export class CodeLoaderComponent implements Component {
   }
 
   getType(): string {
-    return CodeLoaderComponent.name;
+    return InitialComponentLoader.name;
+  }
+
+  getModuleStorage() {
+    return this.moduleStorage;
   }
 
   async awaitInitialLoading() {
     await this.initialLoading;
   }
 
-  async startLoadingJson(
+  async startLoading(
     world: WorldEntity,
-    scene: {
-      version: string;
-      entities: {
-        components: {
-          module: string;
-          config: any;
-          classname: string | undefined;
-        }[];
-      }[];
-      services: { module: string }[];
-    },
-    loadedCallBack: (progress: number, total: number) => void
+    scene: WorldDefinition,
+    loadedCallBack: (progress: number, total: number) => void,
+    moduleStorage: LocalModules
   ) {
+    this.moduleStorage = moduleStorage;
+    if (scene.version !== "2.0") {
+      throw new Error("unsupported");
+    }
     let promises: (() => Promise<any>)[] = [];
     for (const entity of scene.entities) {
       for (const componentDef of entity.components) {
@@ -45,9 +50,9 @@ export class CodeLoaderComponent implements Component {
         promises.push(
           () =>
             new Promise(async (resolve, reject) => {
-              const module = await instanciateJsAsyncModule<
+              const module = await instantiateAsyncModule<
                 ComponentFactory<Component>
-              >(componentDef.module);
+              >(componentDef.module, moduleStorage);
               let component = await module.createComponent(world, config || {});
               if (!component.getType) {
                 throw new Error(
@@ -62,19 +67,6 @@ export class CodeLoaderComponent implements Component {
             })
         );
       }
-    }
-
-    for (const serviceDef of scene.services) {
-      promises.push(
-        () =>
-          new Promise(async (resolve, reject) => {
-            let service = await world.getFirstComponentByType<ServiceEntity>(
-              ServiceEntity.name
-            );
-            await service.getService<any>(serviceDef.module);
-            resolve(service);
-          })
-      );
     }
 
     let promise = load(promises, loadedCallBack);

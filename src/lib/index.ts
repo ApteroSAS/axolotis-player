@@ -1,21 +1,25 @@
 /*
  * Defines what is exported
  * */
+
+//ecs
+//export { Component } from "@root/lib/modules/core/ecs/Component";
+//export { ComponentFactory } from "@root/lib/modules/core/ecs/ComponentFactory";
+//export { DestroyableComponent } from "@root/lib/modules/core/ecs/DestroyableComponent";
+//export { Entity } from "@root/lib/modules/core/ecs/Entity";
+//export { Service } from "@root/lib/modules/core/ecs/Service";
+export { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
+
+//loader
 export {
   initHtml,
   initHtmlFromUrl,
-} from "@root/lib/modules/core/loader/CoreInit";
-export { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
-export { CodeLoaderComponent } from "@root/lib/modules/core/loader/CodeLoaderComponent";
-export { LazyServices } from "@root/lib/modules/core/service/LazyServices";
-export { ServiceEntity } from "@root/lib/modules/core/service/ServiceEntity";
-export { WorldService } from "@root/lib/modules/core/WorldService";
-export { FrameLoop } from "@root/lib/modules/FrameLoop";
+} from "@root/lib/modules/core/loader/DomInit";
+export { createWorld } from "@root/lib/modules/core/loader/BasicInit";
+export { InitialComponentLoader } from "@root/lib/modules/core/loader/InitialComponentLoader";
+export { LazyServices } from "@root/lib/modules/core/loader/service/LazyServices";
+export { Services } from "@root/lib/modules/core/loader/service/Services";
 export {
   registerLocalModule,
   registerLocalModuleList,
-} from "@root/lib/modules/core/loader/JsLoader";
-//export Entity from "@root/lib/modules/core/ecs/Entity";
-//import Component from "@root/lib/modules/core/ecs/Component";
-//import { WebpackLazyModule } from "@root/lib/modules/core/loader/WebpackLoader";
-//import { ComponentFactory } from "@root/lib/modules/core/ecs/ComponentFactory";
+} from "@root/lib/modules/core/loader/LocalLoader";

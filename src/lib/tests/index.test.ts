@@ -1,5 +1,65 @@
-import MyLibrary from '../index';
+import {createWorld, registerLocalModule} from "..";
+import Entity from "../modules/core/ecs/Entity";
+import {ComponentExample} from "../../demo/page/ComponentExample";
+import {ServiceExample} from "../../demo/page/ServiceExample";
+import {LazyEntity} from "../modules/core/loader/entity/LazyEntity";
 
-it('Runs without crashing', () => {
-  new MyLibrary();
+it('createWorld', async () => {
+  const world = await createWorld();
 });
+
+it('createWorld from json', async () => {
+  let localModuleStorage = {};
+  registerLocalModule("@local/ServiceExample", async () => {
+    const module = await import("@root/demo/page/ServiceExample");
+    return {module, classname: module.Factory.name}
+  },localModuleStorage);
+
+  registerLocalModule("@local/ComponentExample", async () => {
+    const module = await import("@root/demo/page/ComponentExample");
+    return {module, classname: module.Factory.name}
+  },localModuleStorage);
+  await createWorld({
+    version:"2.0",
+    entities:[
+      {components:[
+          {module:"@local/ComponentExample",config:{text:"hello 1"}},
+          {module:"@local/ComponentExample",config:{text:"hello 2"}}
+          ]}
+    ]
+  },()=>{},localModuleStorage);
+});
+
+it('createWorld and add modules static', async () => {
+  const world = await createWorld();
+  const entity = new Entity("test ent");
+  entity.addComponent(new ComponentExample(new ServiceExample(),{text:"hello"}));
+  world.addComponent(entity);
+});
+
+it('createWorld 2', async () => {
+  let localModuleStorage = {};
+  registerLocalModule("@local/ServiceExample", async () => {
+    const module = await import("@root/demo/page/ServiceExample");
+    return {module, classname: module.Factory.name}
+  },localModuleStorage);
+
+  registerLocalModule("@local/ComponentExample", async () => {
+    const module = await import("@root/demo/page/ComponentExample");
+    return {module, classname: module.Factory.name}
+  },localModuleStorage);
+  let worldEntity = await createWorld({
+    version:"2.0",
+    entities:[
+      {components:[
+          {module:"@local/ComponentExample",config:{text:"hello 1"}},
+          {module:"@local/ComponentExample",config:{text:"hello 2"}}
+        ]}
+    ]
+  },()=>{},localModuleStorage);
+  let entity = new LazyEntity(worldEntity,"ent test");
+  worldEntity.addComponent(entity);
+  await entity.addComponentAsync("@local/ComponentExample", {text: "hello"});
+  await entity.addComponentAsync("@local/ComponentExample", {text: "hello2"});
+});
+

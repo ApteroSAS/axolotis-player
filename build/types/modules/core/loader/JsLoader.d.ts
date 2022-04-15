@@ -1,10 +1,2 @@
-export declare type Module = () => Promise<{
-    module: any;
-    classname: string;
-}>;
-export interface LocalModules {
-    [id: string]: Module;
-}
-export declare function registerLocalModule(name: string, module: Module): void;
-export declare function registerLocalModuleList(localModulesList: LocalModules, verbose?: boolean): void;
-export declare function instanciateJsAsyncModule<T>(moduleName: string): Promise<T>;
+import { LocalModules } from "./LocalLoader";
+export declare function instantiateAsyncModule<T>(moduleName: string, moduleStorage: LocalModules): Promise<T>;

@@ -80,7 +80,6 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      three: path.resolve("./node_modules/three"),
       "@root": path.resolve("./src")
     },
     fallback: {
