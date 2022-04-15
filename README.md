@@ -17,13 +17,11 @@
     <ax-entity>
         <ax-component module="ComponentExample" config="{position:{x:1,y:2,z:3}}"></ax-component>
     </ax-entity>
-    <ax-service module="ServiceExample"></ax-service>
 </ax-scene>
 ```
 - Lazy loading of Component and service
 Each module is loaded as needed by the code and can be loaded at runtime.
 <img src="https://cloudflare-ipfs.com/ipfs/bafkreifeh2bhoxjflljq3btgixhhe4w2fh2ibuzmhjmvsjbb7nhsuswzc4" />
-- Scene loaded from multiple origin. Navigate seamlessly between Axolotis-player enabled website
 - Each http page with the Axolotis player is a both a 3D Scene and a regular website. This facilitates SEO.
 
 ## 📦 Getting Started

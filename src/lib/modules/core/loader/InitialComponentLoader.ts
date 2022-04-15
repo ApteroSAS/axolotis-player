@@ -4,9 +4,7 @@ import { ComponentFactory } from "@root/lib/modules/core/ecs/ComponentFactory";
 import { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
 import { instantiateAsyncModule } from "@root/lib/modules/core/loader/JsLoader";
 import { WorldDefinition } from "@root/lib/modules/core/loader/BasicInit";
-import {
-  LocalModules,
-} from "@root/lib/modules/core/loader/LocalLoader";
+import { LocalModules } from "@root/lib/modules/core/loader/LocalLoader";
 
 export class InitialComponentLoader implements Component {
   private initialLoading: Promise<any>;
