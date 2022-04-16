@@ -4,9 +4,9 @@
   "description": "Axolotis - player",
   "main": "./build/index.js",
   "types": "./build/types/index.d.ts",
-  "exports": {
-    ".": "./build/index.js"
-  },
+  "files": [
+    "*"
+  ],
   "scripts": {
     "build": "webpack && tsc && ttsc --emitDeclarationOnly",
     "start": "webpack serve --config webpack.config.demo.js",

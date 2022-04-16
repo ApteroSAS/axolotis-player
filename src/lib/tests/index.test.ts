@@ -32,7 +32,7 @@ it('createWorld from json', async () => {
 
 it('createWorld and add modules static', async () => {
   const world = await createWorld();
-  const entity = new Entity("test ent");
+  const entity = new Entity();
   entity.addComponent(new ComponentExample(new ServiceExample(),{text:"hello"}));
   world.addComponent(entity);
 });
@@ -57,7 +57,7 @@ it('createWorld 2', async () => {
         ]}
     ]
   },()=>{},localModuleStorage);
-  let entity = new LazyEntity(worldEntity,"ent test");
+  let entity = new LazyEntity(worldEntity);
   worldEntity.addComponent(entity);
   await entity.addComponentAsync("@local/ComponentExample", {text: "hello"});
   await entity.addComponentAsync("@local/ComponentExample", {text: "hello2"});

@@ -1,6 +1,6 @@
 import Component from "@root/lib/modules/core/ecs/Component";
 import { LazyServices } from "@root/lib/modules/core/loader/service/LazyServices";
-import {Service} from "../../lib/modules/core/ecs/Service";
+import {Service} from "../../lib/modules/core/loader/service/Service";
 
 export class ServiceExample implements Component{
     constructor() {

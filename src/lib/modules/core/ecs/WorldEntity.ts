@@ -2,6 +2,9 @@ import Entity from "@root/lib/modules/core/ecs/Entity";
 
 export class WorldEntity extends Entity {
   constructor() {
-    super("world");
+    super();
+  }
+  public getType(): string {
+    return WorldEntity.name;
   }
 }

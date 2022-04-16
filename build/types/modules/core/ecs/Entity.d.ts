@@ -1,8 +1,7 @@
 import { Component } from "./Component";
 export declare class Entity implements Component {
-    private name;
     private components;
-    constructor(name: string);
+    constructor();
     addComponent<T extends Component>(component: T): T;
     removeAllComponents(): void;
     removeComponent<T extends Component>(component: T): T;

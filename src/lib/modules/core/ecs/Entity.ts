@@ -4,7 +4,7 @@ import { Component } from "./Component";
 export class Entity implements Component {
   private components: Component[] = [];
 
-  constructor(private name: string) {}
+  constructor() {}
 
   public addComponent<T extends Component>(component: T): T {
     this.components.push(component);
@@ -68,7 +68,7 @@ export class Entity implements Component {
   }
 
   public getType(): string {
-    return this.name;
+    return Entity.name;
   }
 }
 
