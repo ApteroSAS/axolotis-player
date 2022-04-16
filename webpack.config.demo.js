@@ -7,6 +7,7 @@ module.exports = {
   mode: "development",
   devtool: 'cheap-module-source-map',
   output: {
+    globalObject: 'this',
     filename: "assets/js/[name]-[chunkhash].js",
     path: path.resolve(__dirname, "./dist/")
   },

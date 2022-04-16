@@ -32,6 +32,7 @@ module.exports = {
     index: path.join(__dirname, './src/lib/index.ts'),
   },
   output: {
+    globalObject: 'this',//https://stackoverflow.com/questions/64639839/typescript-webpack-library-generates-referenceerror-self-is-not-defined
     filename: '[name].js',
     path: path.resolve(__dirname, 'build'),
     library: "axolotis-player",
