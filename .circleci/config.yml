@@ -33,6 +33,8 @@ jobs:
       - run:
           name: Run tests
           command: yarn run coverage
+      - store_test_results:
+          path: ./junit.xml
       - codecov/upload
 
 workflows:

@@ -13,8 +13,7 @@
     "build:demo": "webpack --config webpack.config.demo.js",
     "dev-watch": "tsc-watch --onSuccess \"yarn run build\"",
     "test": "jest --silent",
-    "coverage": "npm run test -- --coverage",
-    "prepare": "npm run build",
+    "coverage": "jest --silent --ci --runInBand --reporters=default --reporters=jest-junit --coverage --collectCoverageFrom='src/lib/**/*.ts'",
     "trypublish": "npm publish || true"
   },
   "repository": {
@@ -94,5 +93,8 @@
   "browserslist": [
     "defaults",
     "not IE 11"
-  ]
+  ],
+  "dependencies": {
+    "jest-junit": "^13.1.0"
+  }
 }
