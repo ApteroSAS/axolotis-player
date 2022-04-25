@@ -2,6 +2,15 @@
   "name": "@aptero/axolotis-player",
   "version": "2.0.0",
   "description": "Axolotis - player",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ApteroSAS/axolotis-player"
+  },
+  "bugs": {
+    "url": "https://github.com/ApteroSAS/axolotis-player/issues"
+  },
+  "author": "Aptero <admin@aptero.co> (https://github.com/ApteroSAS/axolotis-player)",
+  "license": "MIT",
   "main": "./build/index.js",
   "types": "./build/types/index.d.ts",
   "files": [
@@ -16,21 +25,7 @@
     "coverage": "jest --silent --ci --runInBand --reporters=default --reporters=jest-junit --coverage --collectCoverageFrom='src/lib/**/*.ts'",
     "trypublish": "npm publish || true"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ApteroSAS/axolotis-player"
-  },
-  "author": "Aptero <admin@aptero.co> (https://github.com/ApteroSAS/axolotis-player)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ApteroSAS/axolotis-player/issues"
-  },
-  "homepage": "https://aptero.co",
-  "keywords": [
-    "library",
-    "starter",
-    "es6"
-  ],
+  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.9",
@@ -65,7 +60,8 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "4.8.1"
+    "webpack-dev-server": "4.8.1",
+    "jest-junit": "^13.1.0"
   },
   "jest": {
     "moduleDirectories": [
@@ -93,8 +89,5 @@
   "browserslist": [
     "defaults",
     "not IE 11"
-  ],
-  "dependencies": {
-    "jest-junit": "^13.1.0"
-  }
+  ]
 }

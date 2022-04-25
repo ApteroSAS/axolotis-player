@@ -3,8 +3,8 @@
 <div align="center">
  <img align="center" width="230" src="https://cloudflare-ipfs.com/ipfs/bafkreifsgnkf7botlzpwcc2lv57ugwgf3xrmcjrez2kez4qd7o2cs3zjjm" />
   <h2>Axolotis Player</h2>
-  <blockquote>A player that helps to lazy load smart items in order to compose a metaverse space or 3D websites.</blockquote>
-  <strong></strong>
+  <blockquote>A library that helps to lazy load Components (smart items) in an ECS context.<br/>
+    Build for metaverse and 3D websites.</blockquote>
 
 </div>
 
@@ -12,7 +12,7 @@
 
 - ECS system https://en.wikipedia.org/wiki/Entity_component_system
 - Scene defined in the DOM, Similar to https://aframe.io/
-```
+```html
 <ax-scene>
     <ax-entity>
         <ax-component module="ComponentExample" config="{position:{x:1,y:2,z:3}}"></ax-component>
@@ -22,8 +22,7 @@
 - Lazy loading of Component and service
 Each module is loaded as needed by the code and can be loaded at runtime.
 <img src="https://cloudflare-ipfs.com/ipfs/bafkreifeh2bhoxjflljq3btgixhhe4w2fh2ibuzmhjmvsjbb7nhsuswzc4" />
-- Each http page with the Axolotis player is a both a 3D Scene and a regular website. This facilitates SEO.
-
+- Lightweight and no dependencies
 ## 📦 Getting Started
 ### install
 
@@ -109,6 +108,6 @@ constructor() {}
 
 ### ✅ Examples / Demo
 
-```
-https://github.com/ApteroSAS/axolotis-core-plugins
-```
+
+[axolotis-core-plugins (https://github.com/ApteroSAS/axolotis-core-plugins) ](https://github.com/ApteroSAS/axolotis-core-plugins)
+
