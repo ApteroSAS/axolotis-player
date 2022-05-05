@@ -11,9 +11,6 @@ module.exports = {
     filename: "assets/js/[name]-[chunkhash].js",
     path: path.resolve(__dirname, "./dist/")
   },
-  entry: {
-    index: path.join(__dirname, "./src/demo/page/Index.ts"),
-  },
   optimization: {
     minimize: false,
   },
@@ -41,15 +38,29 @@ module.exports = {
       }
     ]
   },
+  entry: {
+    index: path.join(__dirname, "./src/demo/page/Index.ts"),
+    basic: path.join(__dirname, "./src/demo/page/basic/Index.ts"),
+    lazy: path.join(__dirname, "./src/demo/page/lazy/Index.ts"),
+  },
   plugins: [
     new HTMLWebpackPlugin({
       filename: "index.html",
       template: path.join(__dirname, "./src/demo/page/index.html"),
       chunks: ["index"],
       chunksSortMode: "manual",
-      minify: {
-        removeComments: true
-      }
+    }),
+    new HTMLWebpackPlugin({
+      filename: "basic/index.html",
+      template: path.join(__dirname, "./src/demo/page/basic/index.html"),
+      chunks: ["basic"],
+      chunksSortMode: "manual"
+    }),
+    new HTMLWebpackPlugin({
+      filename: "lazy/index.html",
+      template: path.join(__dirname, "./src/demo/page/lazy/index.html"),
+      chunks: ["lazy"],
+      chunksSortMode: "manual"
     }),
     new CopyWebpackPlugin({
       patterns: [

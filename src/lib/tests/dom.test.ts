@@ -14,12 +14,12 @@ it('dom init test', () => {
 
 
   registerLocalModule("@local/ServiceExample", async () => {
-    const module = await import("@root/demo/page/ServiceExample");
+    const module = await import("../../demo/page/basic/ServiceExample");
     return {module, classname: module.Factory.name}
   });
 
   registerLocalModule("@local/ComponentExample", async () => {
-    const module = await import("@root/demo/page/ComponentExample");
+    const module = await import("../../demo/page/basic/ComponentExample");
     return {module, classname: module.Factory.name}
   });
 

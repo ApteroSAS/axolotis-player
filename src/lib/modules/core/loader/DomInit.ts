@@ -52,7 +52,7 @@ export async function initHtmlFromUrl(
 export function initHtml(
   config: {
     onProgress?: (progress: number, total: number) => void;
-    onLoaded?: () => void;
+    onLoaded?: (world:WorldEntity) => void;
   } = {}
 ) {
   if (!config.onProgress) {
@@ -61,7 +61,7 @@ export function initHtml(
     };
   }
   if (!config.onLoaded) {
-    config.onLoaded = () => {
+    config.onLoaded = (world:WorldEntity) => {
       console.log("loading complete");
     };
   }
@@ -70,7 +70,7 @@ export function initHtml(
       window.document.body.getElementsByTagName("ax-scene"); //TODO assume only one scene
     if (!scene || (scene && scene.length == 0)) {
       console.warn("Axolotis scene not found (no tag ax-scene)");
-      config.onLoaded();
+      createWorld().then(config.onLoaded);
       return;
     }
     console.log(scene);

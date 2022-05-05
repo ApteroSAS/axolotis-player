@@ -1,7 +1,7 @@
 import {createWorld, registerLocalModule} from "..";
 import Entity from "../modules/core/ecs/Entity";
-import {ComponentExample} from "../../demo/page/ComponentExample";
-import {ServiceExample} from "../../demo/page/ServiceExample";
+import {ComponentExample} from "../../demo/page/basic/ComponentExample";
+import {ServiceExample} from "../../demo/page/basic/ServiceExample";
 import {LazyEntity} from "../modules/core/loader/entity/LazyEntity";
 
 it('createWorld', async () => {
@@ -11,12 +11,12 @@ it('createWorld', async () => {
 it('createWorld from json', async () => {
   let localModuleStorage = {};
   registerLocalModule("@local/ServiceExample", async () => {
-    const module = await import("@root/demo/page/ServiceExample");
+    const module = await import("../../demo/page/basic/ServiceExample");
     return {module, classname: module.Factory.name}
   },localModuleStorage);
 
   registerLocalModule("@local/ComponentExample", async () => {
-    const module = await import("@root/demo/page/ComponentExample");
+    const module = await import("../../demo/page/basic/ComponentExample");
     return {module, classname: module.Factory.name}
   },localModuleStorage);
   await createWorld({
@@ -40,12 +40,12 @@ it('createWorld and add modules static', async () => {
 it('createWorld 2', async () => {
   let localModuleStorage = {};
   registerLocalModule("@local/ServiceExample", async () => {
-    const module = await import("@root/demo/page/ServiceExample");
+    const module = await import("../../demo/page/basic/ServiceExample");
     return {module, classname: module.Factory.name}
   },localModuleStorage);
 
   registerLocalModule("@local/ComponentExample", async () => {
-    const module = await import("@root/demo/page/ComponentExample");
+    const module = await import("../../demo/page/basic/ComponentExample");
     return {module, classname: module.Factory.name}
   },localModuleStorage);
   let worldEntity = await createWorld({
