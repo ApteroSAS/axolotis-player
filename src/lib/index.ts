@@ -3,7 +3,6 @@
  * */
 export * from "./modules/core/ecs/Component";
 export * from "./modules/core/ecs/ComponentFactory";
-export * from "./modules/core/ecs/DestroyableComponent";
 export * from "./modules/core/ecs/Entity";
 export * from "./modules/core/ecs/WorldEntity";
 export * from "./modules/core/loader/Global";
