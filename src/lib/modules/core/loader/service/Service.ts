@@ -1,5 +1,5 @@
-import { LazyServices } from "@root/lib/modules/core/loader/service/LazyServices";
+import { Iservices } from "./IServices";
 
 export interface Service<T> {
-  createService(services: LazyServices): Promise<T>;
+  createService(services: Iservices): Promise<T>;
 }

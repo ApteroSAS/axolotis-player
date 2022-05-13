@@ -1,4 +1,3 @@
-import { DestroyableComponent } from "./DestroyableComponent";
 import { Component } from "./Component";
 
 export class Entity implements Component {
@@ -19,7 +18,7 @@ export class Entity implements Component {
 
   public removeComponent<T extends Component>(component: T): T {
     if ("destroy" in component) {
-      (component as any as DestroyableComponent).destroy();
+      (component as any).destroy();
     }
     this.components = this.components.filter((comp) => {
       return comp != component;

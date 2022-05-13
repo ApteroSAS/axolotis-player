@@ -3,9 +3,12 @@ import { load } from "@root/lib/modules/core/loader/CodeLoader";
 import { ComponentFactory } from "@root/lib/modules/core/ecs/ComponentFactory";
 import { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
 import { instantiateAsyncModule } from "@root/lib/modules/core/loader/JsLoader";
-import { WorldDefinition } from "@root/lib/modules/core/loader/BasicInit";
+import { WorldDefinition } from "@root/lib/modules/core/loader/WorldDefinition";
 import { LocalModules } from "@root/lib/modules/core/loader/LocalLoader";
 
+export const CODE_LOADER_MODULE_NAME =
+  "@aptero/axolotis-player/core/loader/InitialComponentLoader";
+  
 export class InitialComponentLoader implements Component {
   private initialLoading: Promise<any>;
   private initialLoadingResolver: ((value: any) => void) | undefined;
