@@ -1,4 +1,4 @@
 import Component from "../../ecs/Component";
-export interface Iservices {
+export interface IServices {
     getService<T extends Component>(moduleName: string): Promise<T>;
 }

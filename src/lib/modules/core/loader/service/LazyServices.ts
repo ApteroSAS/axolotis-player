@@ -6,9 +6,9 @@ import {
   InitialComponentLoader,
   CODE_LOADER_MODULE_NAME,
 } from "@root/lib/modules/core/loader/InitialComponentLoader";
-import { Iservices } from "./IServices";
+import { IServices } from "./IServices";
 
-export class LazyServices implements Iservices {
+export class LazyServices implements IServices {
   constructor(private world: WorldEntity) {}
 
   service: { [id: string]: Promise<Component> | undefined } = {};
