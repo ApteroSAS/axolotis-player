@@ -8,7 +8,7 @@ import { LocalModules } from "@root/lib/modules/core/loader/LocalLoader";
 
 export const CODE_LOADER_MODULE_NAME =
   "@aptero/axolotis-player/core/loader/InitialComponentLoader";
-  
+
 export class InitialComponentLoader implements Component {
   private initialLoading: Promise<any>;
   private initialLoadingResolver: ((value: any) => void) | undefined;

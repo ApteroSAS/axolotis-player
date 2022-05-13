@@ -2,8 +2,12 @@ import Entity from "@root/lib/modules/core/ecs/Entity";
 import { instantiateAsyncModule } from "@root/lib/modules/core/loader/JsLoader";
 import Component from "@root/lib/modules/core/ecs/Component";
 import { ComponentFactory } from "@root/lib/modules/core/ecs/ComponentFactory";
-import { InitialComponentLoader, Services, WorldEntity } from "@root/lib";
-import { CODE_LOADER_MODULE_NAME } from "@root/lib/modules/core/loader/BasicInit";
+import {
+  CODE_LOADER_MODULE_NAME,
+  InitialComponentLoader,
+  Services,
+  WorldEntity,
+} from "@root/lib";
 
 export class LazyEntity extends Entity {
   constructor(private world: WorldEntity) {

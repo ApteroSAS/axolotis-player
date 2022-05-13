@@ -1,9 +1,9 @@
 import { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
+import { createWorld } from "@root/lib/modules/core/loader/BasicInit";
 import {
-  createWorld,
   WorldDefinition,
   WorldDefinitionV2,
-} from "@root/lib/modules/core/loader/BasicInit";
+} from "@root/lib/modules/core/loader/WorldDefinition";
 
 export const BUILD_VERSION = require("../../../../../package.json").version;
 console.log("Axolotis-player version :" + BUILD_VERSION);
@@ -52,7 +52,7 @@ export async function initHtmlFromUrl(
 export function initHtml(
   config: {
     onProgress?: (progress: number, total: number) => void;
-    onLoaded?: (world:WorldEntity) => void;
+    onLoaded?: (world: WorldEntity) => void;
   } = {}
 ) {
   if (!config.onProgress) {
@@ -61,7 +61,7 @@ export function initHtml(
     };
   }
   if (!config.onLoaded) {
-    config.onLoaded = (world:WorldEntity) => {
+    config.onLoaded = (world: WorldEntity) => {
       console.log("loading complete");
     };
   }
