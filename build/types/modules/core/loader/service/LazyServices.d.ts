@@ -1,6 +1,7 @@
 import Component from "../../ecs/Component";
 import { WorldEntity } from "../../../..";
-export declare class LazyServices {
+import { Iservices } from "./IServices";
+export declare class LazyServices implements Iservices {
     private world;
     constructor(world: WorldEntity);
     service: {

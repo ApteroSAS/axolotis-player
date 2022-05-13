@@ -6,5 +6,5 @@ export declare function initHtmlFromUrl(url: string, config?: {
 }): Promise<WorldEntity>;
 export declare function initHtml(config?: {
     onProgress?: (progress: number, total: number) => void;
-    onLoaded?: () => void;
+    onLoaded?: (world: WorldEntity) => void;
 }): void;

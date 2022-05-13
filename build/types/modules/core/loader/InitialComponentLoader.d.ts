@@ -1,7 +1,8 @@
 import Component from "../ecs/Component";
 import { WorldEntity } from "../ecs/WorldEntity";
-import { WorldDefinition } from "./BasicInit";
+import { WorldDefinition } from "./WorldDefinition";
 import { LocalModules } from "./LocalLoader";
+export declare const CODE_LOADER_MODULE_NAME = "@aptero/axolotis-player/core/loader/InitialComponentLoader";
 export declare class InitialComponentLoader implements Component {
     private initialLoading;
     private initialLoadingResolver;
