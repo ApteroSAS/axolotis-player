@@ -2,12 +2,12 @@ import {registerLocalModule, initHtml} from "../../../lib";
 
 registerLocalModule("@local/ServiceExample", async () => {
     const module = await import("./ServiceExample");
-    return {module, classname: module.Factory.name}
+    return {module, classname: module.ServiceExample.name}
 });
 
 registerLocalModule("@local/ComponentExample", async () => {
     const module = await import("./ComponentExample");
-    return {module, classname: module.Factory.name}
+    return {module, classname: module.ComponentExample.name}
 });
 
 initHtml({

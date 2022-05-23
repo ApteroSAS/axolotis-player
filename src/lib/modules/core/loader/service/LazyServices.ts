@@ -37,12 +37,14 @@ export class LazyServices implements IServices {
       let modulesList = (
         (await this.service[CODE_LOADER_MODULE_NAME]) as InitialComponentLoader
       ).getModuleStorage();
-      let modulePromise = instantiateAsyncModule<Service<T>>(
+      let modulePromise = instantiateAsyncModule<T>(
         moduleName,
-        modulesList
+        modulesList, 
+        this.world
       );
       this.service[moduleName] = new Promise(async (resolve) => {
-        let t: Component = await (await modulePromise).createService(this);
+        let module : any = await modulePromise;
+        let t: Component = (module.getType)? module : await module.createService(this);
         resolve(t);
       });
     }

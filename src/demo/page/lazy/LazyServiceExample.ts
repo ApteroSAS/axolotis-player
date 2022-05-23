@@ -3,6 +3,7 @@ import { LazyServices } from "../../../lib/modules/core/loader/service/LazyServi
 import {Service} from "../../../lib/modules/core/loader/service/Service";
 
 export class LazyServiceExample implements Component{
+    public static dependencies : string[] = [];
     constructor() {
         console.log("ServiceExample created");
     }

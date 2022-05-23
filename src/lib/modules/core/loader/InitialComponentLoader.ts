@@ -49,10 +49,8 @@ export class InitialComponentLoader implements Component {
         promises.push(
           () =>
             new Promise(async (resolve, reject) => {
-              const module = await instantiateAsyncModule<
-                ComponentFactory<Component>
-              >(componentDef.module, moduleStorage);
-              let component = await module.createComponent(world, config || {});
+              let module = await instantiateAsyncModule<any>(componentDef.module, moduleStorage, world, config || {});//module.createComponent(world, config || {});
+              let component = (module.getType)? module : await module.createComponent(world, config || {}) as Component;
               if (!component.getType) {
                 throw new Error(
                   "Not a component : " +

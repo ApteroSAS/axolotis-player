@@ -4,16 +4,20 @@ import {
   instantiateLocalAsyncModule,
   LocalModules,
 } from "@root/lib/modules/core/loader/LocalLoader";
+import { WorldEntity } from "../ecs/WorldEntity";
 
 export async function instantiateAsyncModule<T>(
   moduleName: string,
-  moduleStorage: LocalModules
+  moduleStorage: LocalModules,
+  world?:WorldEntity, config?:any
 ): Promise<T> {
   let module = null;
   if (moduleStorage && moduleStorage[moduleName]) {
-    module = await instantiateLocalAsyncModule<ComponentFactory<Component>>(
+    module = await instantiateLocalAsyncModule<Component>(
       moduleName,
-      moduleStorage
+      moduleStorage,
+      world, 
+      config
     );
   } else if (moduleName.startsWith("http")) {
     //TODO remote module "https://"

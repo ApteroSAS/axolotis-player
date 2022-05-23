@@ -5,6 +5,7 @@ import {ServiceExample} from "./ServiceExample";
 import {LazyServiceExample} from "./LazyServiceExample";
 
 export class LazyComponentExample implements Component{
+    public static dependencies : string[] = ["@local/LazyServiceExample"];
     constructor(service:LazyServiceExample,config:{text:string}) {
         console.log("ComponentExample created");
         service.addTextToElement(config.text);
@@ -19,6 +20,7 @@ export class Factory implements ComponentFactory<LazyComponentExample>{
     constructor() {}
 
     async createComponent(world:WorldEntity, config:any): Promise<LazyComponentExample> {
+        //@ts-ignore
         let services = world.getFirstComponentByType<Services>(Services.name);
         let serviceExample = await services.getService<LazyServiceExample>("@local/LazyServiceExample");
         return new LazyComponentExample(serviceExample,config);

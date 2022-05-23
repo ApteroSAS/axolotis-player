@@ -16,20 +16,25 @@ export class LazyEntity extends Entity {
 
   async addComponentAsync<T extends Component>(
     moduleName: string,
-    config: any = {}
+    config: any = {},
+    
   ): Promise<T> {
     let services = this.world.getFirstComponentByType<Services>(Services.name);
     let codeLoader = await services.getService<InitialComponentLoader>(
       CODE_LOADER_MODULE_NAME
     );
-    let modulePromise = instantiateAsyncModule<ComponentFactory<T>>(
+    let modulePromise = instantiateAsyncModule<T>(
       moduleName,
-      codeLoader.getModuleStorage()
+      codeLoader.getModuleStorage(), 
+      this.world, 
+      config || {}
     );
-    let comp: Component = await (
+
+    let module: any = await (
       await modulePromise
-    ).createComponent(this.world, config);
-    return comp as T;
+    );
+    let component = (module.getType)? module : await module.createComponent(this.world, config || {}) as Component;
+    return component as T;
   }
 
   public getType(): string {

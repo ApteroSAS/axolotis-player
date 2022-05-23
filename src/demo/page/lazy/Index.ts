@@ -2,7 +2,7 @@ import {registerLocalModule, initHtml, WorldEntity, LazyEntity} from "../../../l
 
 registerLocalModule("@local/ServiceExample", async () => {
     const module = await import("./ServiceExample");
-    return {module, classname: module.Factory.name}
+    return {module, classname: module.ServiceExample.name} // return {module, classname: module.ServiceExample.name}
 });
 
 registerLocalModule("@local/ComponentExample", async () => {
@@ -17,7 +17,7 @@ registerLocalModule("@local/LazyServiceExample", async () => {
 
 registerLocalModule("@local/LazyComponentExample", async () => {
     const module = await import("./LazyComponentExample");
-    return {module, classname: module.Factory.name}
+    return {module, classname: module.LazyComponentExample.name}
 });
 
 let globalWorld:WorldEntity = null;
@@ -38,6 +38,7 @@ initHtml({
 declare const window;
 window.loadMore = async ()=>{
     let entity = new LazyEntity(globalWorld);
+    //@ts-ignore
     globalWorld.addComponent(entity);
     await entity.addComponentAsync("@local/LazyComponentExample", {text: "deferred load 1"});
     await entity.addComponentAsync("@local/LazyComponentExample", {text: "deferred load 2"});

@@ -1,4 +1,8 @@
 import { getGlobalStorage } from "@root/lib/modules/core/loader/Global";
+import Component from "../ecs/Component";
+import { WorldEntity } from "../ecs/WorldEntity";
+import { Service } from "./service/Service";
+import { Services } from "./service/Services";
 
 export type Module = () => Promise<{ module: any; classname: string }>;
 export interface LocalModules {
@@ -35,7 +39,9 @@ export function registerLocalModuleList(
 
 export async function instantiateLocalAsyncModule<T>(
   fqcn: string,
-  localModules: LocalModules
+  localModules: LocalModules,
+  world:WorldEntity, 
+  config?:any
 ): Promise<T> {
   const localModule = await localModules[fqcn]();
   const module = localModule.module;
@@ -45,9 +51,21 @@ export async function instantiateLocalAsyncModule<T>(
       sub.prototype &&
       sub.prototype.constructor.name === localModule.classname
     ) {
-      //identifiying the module
-      return new sub();
+      let DependencyComponentList:Component[] = [];
+      if(sub.dependencies){
+        for (let i = 0; i < sub.dependencies.length; i++) {
+          const dep = sub.dependencies[i];
+          let services = world.getFirstComponentByType<Services>(Services.name);
+          let service = await services.getService<Component>(dep);
+          DependencyComponentList.push(service)
+        }
+      }
+      if(config != undefined){
+        return new sub(...DependencyComponentList, config);
+      }else {
+        return new sub(...DependencyComponentList)
+      }
     }
   }
-  throw new Error("invalid factory " + fqcn + " - " + localModule.classname);
+  throw new Error("invalid submodule " + fqcn + " - " + localModule.classname);
 }

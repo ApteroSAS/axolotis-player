@@ -18,7 +18,7 @@ module.exports = {
     open: true,
     hot: true,
     host: "localhost",
-    port: 9080
+    port: 9081
   },
   module: {
     rules: [
