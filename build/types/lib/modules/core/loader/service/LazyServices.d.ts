@@ -10,6 +10,6 @@ export declare class LazyServices {
         [id: string]: IService;
     };
     getWorld(): WorldEntity;
-    setService(moduleName: string, service: IService): void;
+    setService(moduleName: string, service: IService, replace?: boolean): void;
     getService<T extends IService>(moduleName: string): Promise<T>;
 }

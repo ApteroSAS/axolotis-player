@@ -14,28 +14,37 @@ export class LazyServices {
     return this.world;
   }
 
-  setService(moduleName: string, service: IService) {
+  setService(moduleName: string, service: IService, replace = false) {
+    if (!replace && (this.serviceAsync[moduleName] || this.service[moduleName])) {
+      throw new Error("Service already exist (use replace to force)");
+    }
     this.serviceAsync[moduleName] = Promise.resolve(service);
     this.service[moduleName] = service;
+    if (service.init) {
+      service.init(); //service init
+    }
   }
 
   async getService<T extends IService>(moduleName: string): Promise<T> {
     if (this.serviceAsync[moduleName]) {
-      const module = await this.serviceAsync[moduleName];
-      if (!module) {
+      //service already downloading add this request to queue;
+      const service = await this.serviceAsync[moduleName];
+      if (!service) {
         throw new Error("error");
       }
-      this.service[moduleName] = module; //module resolved
-      return module as T;
+      return service as T;
     }
     if (!this.serviceAsync[moduleName]) {
       let modulesList = ((await this.serviceAsync[CODE_LOADER_MODULE_NAME]) as InitialComponentLoader).getModuleStorage();
       let modulePromise = instantiateAsyncModule<T>(moduleName, modulesList, this.world);
       this.serviceAsync[moduleName] = new Promise(async (resolve) => {
         let module: any = await modulePromise;
-        let t: Component = module.getType ? module : await module.createService(this);
-        this.service[moduleName] = module; //module resolved
-        resolve(t);
+        let service: Component = module.getType ? module : await module.createService(this);
+        this.service[moduleName] = service; //module resolved
+        if (service.init) {
+          service.init(); //service init
+        }
+        resolve(service);
       });
     }
     return (await this.serviceAsync[moduleName]) as T;

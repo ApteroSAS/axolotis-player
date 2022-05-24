@@ -18,3 +18,4 @@ export * from "./modules/core/loader/service/ServiceUtils";
 export * from "./modules/core/loader/service/IServices";
 export * from "./modules/core/loader/LocalLoader";
 export * from "./modules/core/loader/entity/LazyEntity";
+export * from "./modules/core/loader/Item";

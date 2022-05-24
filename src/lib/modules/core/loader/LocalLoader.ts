@@ -1,8 +1,8 @@
-import { getGlobalStorage } from "@root/lib/modules/core/loader/Global";
+import { getGlobalStorageValue } from "@root/lib/modules/core/loader/Global";
 import Component from "../ecs/Component";
 import { WorldEntity } from "../ecs/WorldEntity";
-import { Service } from "./service/Service";
 import { Services } from "./service/Services";
+import { GLOBAL_LOCAL_MODULE } from "@root/lib";
 
 export type Module = () => Promise<{ module: any; classname: string }>;
 export interface LocalModules {
@@ -11,7 +11,7 @@ export interface LocalModules {
 
 export function registerLocalModule(name: string, module: Module, moduleStorage?: LocalModules) {
   if (!moduleStorage) {
-    moduleStorage = getGlobalStorage<LocalModules>("localModules");
+    moduleStorage = getGlobalStorageValue<LocalModules>(GLOBAL_LOCAL_MODULE);
   }
   if (moduleStorage[name]) {
     throw new Error("Module already defined");
@@ -21,7 +21,7 @@ export function registerLocalModule(name: string, module: Module, moduleStorage?
 
 export function registerLocalModuleList(localModulesList: LocalModules, verbose: boolean = false, moduleStorage?: LocalModules) {
   if (!moduleStorage) {
-    moduleStorage = getGlobalStorage<LocalModules>("localModules");
+    moduleStorage = getGlobalStorageValue<LocalModules>(GLOBAL_LOCAL_MODULE);
   }
   if (verbose) {
     console.log("imported module :", localModulesList);

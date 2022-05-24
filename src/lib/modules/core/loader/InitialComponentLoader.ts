@@ -1,6 +1,5 @@
 import Component from "@root/lib/modules/core/ecs/Component";
 import { load } from "@root/lib/modules/core/loader/CodeLoader";
-import { ComponentFactory } from "@root/lib/modules/core/ecs/ComponentFactory";
 import { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
 import { instantiateAsyncModule } from "@root/lib/modules/core/loader/JsLoader";
 import { WorldDefinition } from "@root/lib/modules/core/loader/WorldDefinition";
