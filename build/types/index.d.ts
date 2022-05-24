@@ -10,6 +10,8 @@ export * from "./modules/core/loader/InitialComponentLoader";
 export * from "./modules/core/loader/service/LazyServices";
 export * from "./modules/core/loader/service/Service";
 export * from "./modules/core/loader/service/Services";
+export * from "./modules/core/loader/service/IService";
+export * from "./modules/core/loader/service/ServiceUtils";
 export * from "./modules/core/loader/service/IServices";
 export * from "./modules/core/loader/LocalLoader";
 export * from "./modules/core/loader/entity/LazyEntity";

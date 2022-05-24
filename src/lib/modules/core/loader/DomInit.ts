@@ -1,9 +1,6 @@
 import { WorldEntity } from "@root/lib/modules/core/ecs/WorldEntity";
 import { createWorld } from "@root/lib/modules/core/loader/BasicInit";
-import {
-  WorldDefinition,
-  WorldDefinitionV2,
-} from "@root/lib/modules/core/loader/WorldDefinition";
+import { WorldDefinition, WorldDefinitionV2 } from "@root/lib/modules/core/loader/WorldDefinition";
 
 export const BUILD_VERSION = require("../../../../../package.json").version;
 console.log("Axolotis-player version :" + BUILD_VERSION);
@@ -66,8 +63,7 @@ export function initHtml(
     };
   }
   windowReady(() => {
-    let scene: HTMLCollection =
-      window.document.body.getElementsByTagName("ax-scene"); //TODO assume only one scene
+    let scene: HTMLCollection = window.document.body.getElementsByTagName("ax-scene"); //TODO assume only one scene
     if (!scene || (scene && scene.length == 0)) {
       console.warn("Axolotis scene not found (no tag ax-scene)");
       createWorld().then(config.onLoaded);
@@ -92,9 +88,7 @@ function htmlToJson(scene: HTMLCollection): WorldDefinition {
       let correctJson = JSON.stringify({});
       if (componentEl.getAttribute("config")) {
         //convert relaxed json to proper json
-        correctJson = componentEl
-          .getAttribute("config")
-          .replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
+        correctJson = componentEl.getAttribute("config").replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
       }
       let component = {
         module: componentEl.getAttribute("module"),

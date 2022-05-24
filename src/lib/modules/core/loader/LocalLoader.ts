@@ -9,11 +9,7 @@ export interface LocalModules {
   [id: string]: Module;
 }
 
-export function registerLocalModule(
-  name: string,
-  module: Module,
-  moduleStorage?: LocalModules
-) {
+export function registerLocalModule(name: string, module: Module, moduleStorage?: LocalModules) {
   if (!moduleStorage) {
     moduleStorage = getGlobalStorage<LocalModules>("localModules");
   }
@@ -23,11 +19,7 @@ export function registerLocalModule(
   moduleStorage[name] = module;
 }
 
-export function registerLocalModuleList(
-  localModulesList: LocalModules,
-  verbose: boolean = false,
-  moduleStorage?: LocalModules
-) {
+export function registerLocalModuleList(localModulesList: LocalModules, verbose: boolean = false, moduleStorage?: LocalModules) {
   if (!moduleStorage) {
     moduleStorage = getGlobalStorage<LocalModules>("localModules");
   }
@@ -37,33 +29,25 @@ export function registerLocalModuleList(
   Object.assign(moduleStorage, localModulesList);
 }
 
-export async function instantiateLocalAsyncModule<T>(
-  fqcn: string,
-  localModules: LocalModules,
-  world:WorldEntity, 
-  config?:any
-): Promise<T> {
+export async function instantiateLocalAsyncModule<T>(fqcn: string, localModules: LocalModules, world: WorldEntity, config?: any): Promise<T> {
   const localModule = await localModules[fqcn]();
   const module = localModule.module;
   for (const key in module) {
     const sub = module[key];
-    if (
-      sub.prototype &&
-      sub.prototype.constructor.name === localModule.classname
-    ) {
-      let DependencyComponentList:Component[] = [];
-      if(sub.dependencies){
+    if (sub.prototype && sub.prototype.constructor.name === localModule.classname) {
+      let DependencyComponentList: Component[] = [];
+      if (sub.dependencies) {
         for (let i = 0; i < sub.dependencies.length; i++) {
           const dep = sub.dependencies[i];
           let services = world.getFirstComponentByType<Services>(Services.name);
           let service = await services.getService<Component>(dep);
-          DependencyComponentList.push(service)
+          DependencyComponentList.push(service);
         }
       }
-      if(config != undefined){
+      if (config != undefined) {
         return new sub(...DependencyComponentList, config);
-      }else {
-        return new sub(...DependencyComponentList)
+      } else {
+        return new sub(...DependencyComponentList);
       }
     }
   }

@@ -1,2 +1,3 @@
 import { LocalModules } from "./LocalLoader";
-export declare function instantiateAsyncModule<T>(moduleName: string, moduleStorage: LocalModules): Promise<T>;
+import { WorldEntity } from "../ecs/WorldEntity";
+export declare function instantiateAsyncModule<T>(moduleName: string, moduleStorage: LocalModules, world?: WorldEntity, config?: any): Promise<T>;

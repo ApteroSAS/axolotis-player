@@ -1,4 +1,5 @@
 import { IServices } from "./IServices";
-export interface Service<T> {
+import { IService } from "../../../..";
+export interface Service<T extends IService> {
     createService(services: IServices): Promise<T>;
 }

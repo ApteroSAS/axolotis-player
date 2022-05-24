@@ -1,13 +1,15 @@
-import Component from "../../ecs/Component";
 import { WorldEntity } from "../../../..";
-import { IServices } from "./IServices";
-export declare class LazyServices implements IServices {
+import { IService } from "./IService";
+export declare class LazyServices {
     private world;
     constructor(world: WorldEntity);
+    serviceAsync: {
+        [id: string]: Promise<IService> | undefined;
+    };
     service: {
-        [id: string]: Promise<Component> | undefined;
+        [id: string]: IService;
     };
     getWorld(): WorldEntity;
-    setService(moduleName: string, service: Component, classname?: string): void;
-    getService<T extends Component>(moduleName: string): Promise<T>;
+    setService(moduleName: string, service: IService): void;
+    getService<T extends IService>(moduleName: string): Promise<T>;
 }
