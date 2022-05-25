@@ -9,7 +9,6 @@ import {
   setGlobalStorageValue,
   WorldEntity,
 } from "@root/lib";
-import { ServiceExample } from "@root/demo/page/basic/ServiceExample";
 
 /**
  * An Item (or SmartItem) is a set of Module (Services and/or Component)

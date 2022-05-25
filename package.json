@@ -12,7 +12,7 @@
   "author": "Aptero <admin@aptero.co> (https://github.com/ApteroSAS/axolotis-player)",
   "license": "MIT",
   "main": "./build/index.js",
-  "types": "./build/types/index.d.ts",
+  "types": "./build/index.d.ts",
   "files": [
     "*"
   ],
