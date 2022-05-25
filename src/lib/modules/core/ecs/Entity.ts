@@ -6,6 +6,9 @@ export class Entity implements Component {
   constructor() {}
 
   public addComponent<T extends Component>(component: T): T {
+    if (component.init) {
+      component.init();
+    }
     this.components.push(component);
     return component;
   }
@@ -17,8 +20,8 @@ export class Entity implements Component {
   }
 
   public removeComponent<T extends Component>(component: T): T {
-    if ("destroy" in component) {
-      (component as any).destroy();
+    if (component.destroy) {
+      component.destroy();
     }
     this.components = this.components.filter((comp) => {
       return comp != component;
@@ -56,9 +59,7 @@ export class Entity implements Component {
     return ret;
   }
 
-  public getFirstComponentByTypeStartsWith<T extends Component>(
-    type: string
-  ): T {
+  public getFirstComponentByTypeStartsWith<T extends Component>(type: string): T {
     return this.getComponentByTypeStartsWith(type)[0] as T;
   }
 

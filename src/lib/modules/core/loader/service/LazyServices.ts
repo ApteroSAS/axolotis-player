@@ -1,53 +1,52 @@
 import Component from "@root/lib/modules/core/ecs/Component";
 import { instantiateAsyncModule } from "@root/lib/modules/core/loader/JsLoader";
-import { Service } from "@root/lib/modules/core/loader/service/Service";
 import { WorldEntity } from "@root/lib";
-import {
-  InitialComponentLoader,
-  CODE_LOADER_MODULE_NAME,
-} from "@root/lib/modules/core/loader/InitialComponentLoader";
-import { IServices } from "./IServices";
+import { InitialComponentLoader, CODE_LOADER_MODULE_NAME } from "@root/lib/modules/core/loader/InitialComponentLoader";
+import { IService } from "@root/lib/modules/core/loader/service/IService";
 
-export class LazyServices implements IServices {
+export class LazyServices {
   constructor(private world: WorldEntity) {}
 
-  service: { [id: string]: Promise<Component> | undefined } = {};
+  serviceAsync: { [id: string]: Promise<IService> | undefined } = {};
+  service: { [id: string]: IService } = {};
 
   getWorld(): WorldEntity {
     return this.world;
   }
 
-  setService(
-    moduleName: string,
-    service: Component,
-    classname: string = "Factory"
-  ) {
-    this.service[moduleName] = Promise.resolve(service);
+  setService(moduleName: string, service: IService, replace = false) {
+    if (!replace && (this.serviceAsync[moduleName] || this.service[moduleName])) {
+      throw new Error("Service already exist (use replace to force)");
+    }
+    this.serviceAsync[moduleName] = Promise.resolve(service);
+    this.service[moduleName] = service;
+    if (service.init) {
+      service.init(); //service init
+    }
   }
 
-  async getService<T extends Component>(moduleName: string): Promise<T> {
-    if (this.service[moduleName]) {
-      const module = await this.service[moduleName];
-      if (!module) {
+  async getService<T extends IService>(moduleName: string): Promise<T> {
+    if (this.serviceAsync[moduleName]) {
+      //service already downloading add this request to queue;
+      const service = await this.serviceAsync[moduleName];
+      if (!service) {
         throw new Error("error");
       }
-      return module as T;
+      return service as T;
     }
-    if (!this.service[moduleName]) {
-      let modulesList = (
-        (await this.service[CODE_LOADER_MODULE_NAME]) as InitialComponentLoader
-      ).getModuleStorage();
-      let modulePromise = instantiateAsyncModule<T>(
-        moduleName,
-        modulesList, 
-        this.world
-      );
-      this.service[moduleName] = new Promise(async (resolve) => {
-        let module : any = await modulePromise;
-        let t: Component = (module.getType)? module : await module.createService(this);
-        resolve(t);
+    if (!this.serviceAsync[moduleName]) {
+      let modulesList = ((await this.serviceAsync[CODE_LOADER_MODULE_NAME]) as InitialComponentLoader).getModuleStorage();
+      let modulePromise = instantiateAsyncModule<T>(moduleName, modulesList, this.world);
+      this.serviceAsync[moduleName] = new Promise(async (resolve) => {
+        let module: any = await modulePromise;
+        let service: Component = module.getType ? module : await module.createService(this);
+        this.service[moduleName] = service; //module resolved
+        if (service.init) {
+          service.init(); //service init
+        }
+        resolve(service);
       });
     }
-    return (await this.service[moduleName]) as T;
+    return (await this.serviceAsync[moduleName]) as T;
   }
 }

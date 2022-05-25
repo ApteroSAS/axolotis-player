@@ -1,8 +1,7 @@
-import Component from "../../../lib/modules/core/ecs/Component";
-import { LazyServices } from "../../../lib/modules/core/loader/service/LazyServices";
 import {Service} from "../../../lib/modules/core/loader/service/Service";
+import {IService, IServices} from "../../../lib";
 
-export class ServiceExample implements Component{
+export class ServiceExample implements IService{
     constructor() {
         console.log("ServiceExample created");
     }
@@ -21,3 +20,10 @@ export class ServiceExample implements Component{
         return ServiceExample.name;
     }
 }
+
+export class Factory implements Service<ServiceExample>{
+    async createService(services:IServices): Promise<ServiceExample> {
+        return new ServiceExample();
+    }
+}
+

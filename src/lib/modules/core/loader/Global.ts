@@ -1,6 +1,10 @@
 var axolotis = null;
 
-export function getGlobalStorage<T>(key): T {
+export const GLOBAL_WORLDS_ENTITY = "worlds";
+export const GLOBAL_STATIC_SERVICES = "staticServices";
+export const GLOBAL_LOCAL_MODULE = "localModules";
+
+export function getGlobalStorage(): any {
   //not axolotis in window => create it
   if (typeof window !== "undefined") {
     if (!(window as any).axolotis) {
@@ -17,8 +21,18 @@ export function getGlobalStorage<T>(key): T {
     axolotis = {};
   }
 
-  if (!axolotis[key]) {
-    axolotis[key] = {};
+  return axolotis;
+}
+
+export function setGlobalStorageValue(key, value) {
+  let globalStorage = getGlobalStorage();
+  globalStorage[key] = value;
+}
+
+export function getGlobalStorageValue<T>(key, auto: boolean = true): T {
+  let globalStorage = getGlobalStorage();
+  if (!globalStorage[key] && auto) {
+    globalStorage[key] = {};
   }
-  return axolotis[key] as T;
+  return globalStorage[key] as T;
 }

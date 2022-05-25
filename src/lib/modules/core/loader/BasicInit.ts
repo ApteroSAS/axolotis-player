@@ -1,12 +1,16 @@
 import { Services } from "@root/lib/modules/core/loader/service/Services";
-import { WorldEntity } from "@root/lib";
+import { InitialComponentLoader, CODE_LOADER_MODULE_NAME } from "@root/lib/modules/core/loader/InitialComponentLoader";
 import {
-  InitialComponentLoader,
-  CODE_LOADER_MODULE_NAME,
-} from "@root/lib/modules/core/loader/InitialComponentLoader";
-import { getGlobalStorage } from "@root/lib/modules/core/loader/Global";
+  getGlobalStorage,
+  getGlobalStorageValue,
+  GLOBAL_LOCAL_MODULE,
+  GLOBAL_STATIC_SERVICES,
+  GLOBAL_WORLDS_ENTITY,
+  setGlobalStorageValue,
+} from "@root/lib/modules/core/loader/Global";
 import { LocalModules } from "@root/lib/modules/core/loader/LocalLoader";
 import { WorldDefinition } from "@root/lib/modules/core/loader/WorldDefinition";
+import { IService, WorldEntity } from "@root/lib";
 
 export async function createWorld(
   initialScene: WorldDefinition = {
@@ -20,18 +24,25 @@ export async function createWorld(
   if (!world) {
     world = new WorldEntity();
   }
+  if (!getGlobalStorageValue(GLOBAL_WORLDS_ENTITY, false)) {
+    setGlobalStorageValue(GLOBAL_WORLDS_ENTITY, [world]);
+  } else {
+    getGlobalStorageValue<WorldEntity[]>(GLOBAL_WORLDS_ENTITY).push(world);
+  }
   if (!moduleStorage) {
-    moduleStorage = getGlobalStorage<LocalModules>("localModules");
+    moduleStorage = getGlobalStorageValue<LocalModules>(GLOBAL_LOCAL_MODULE);
   }
   let serviceEntity = new Services(world);
   world.addComponent(serviceEntity);
-  let codeLoaderComponent = new InitialComponentLoader();
-  serviceEntity.setService(CODE_LOADER_MODULE_NAME, codeLoaderComponent);
-  await codeLoaderComponent.startLoading(
-    world,
-    initialScene,
-    loadedCallBack,
-    moduleStorage
-  );
+
+  let staticServices = getGlobalStorageValue<{ [id: string]: IService }>(GLOBAL_STATIC_SERVICES);
+  if (!staticServices[CODE_LOADER_MODULE_NAME]) {
+    staticServices[CODE_LOADER_MODULE_NAME] = new InitialComponentLoader();
+  }
+  for (const key in staticServices) {
+    world.getFirstComponentByType<Services>(Services.name).setService(key, staticServices[key]);
+  }
+
+  await (staticServices[CODE_LOADER_MODULE_NAME] as InitialComponentLoader).startLoading(world, initialScene, loadedCallBack, moduleStorage);
   return world;
 }

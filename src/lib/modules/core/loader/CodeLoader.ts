@@ -1,7 +1,4 @@
-export function load(
-  modules: (() => Promise<any>)[],
-  loadedCallBack: (progress: number, total: number) => void
-) {
+export function load(modules: (() => Promise<any>)[], loadedCallBack: (progress: number, total: number) => void) {
   let ret: any[] = [];
   let nbLoaded = 0;
   for (const promiseCb of modules) {
