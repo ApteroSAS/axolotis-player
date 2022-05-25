@@ -15,12 +15,12 @@ it('dom init test', () => {
 
   registerLocalModule("@local/ServiceExample", async () => {
     const module = await import("../../demo/page/basic/ServiceExample");
-    return {module, classname: module.Factory.name}
+    return {module, classname: module.ServiceExample.name}
   });
 
   registerLocalModule("@local/ComponentExample", async () => {
     const module = await import("../../demo/page/basic/ComponentExample");
-    return {module, classname: module.Factory.name}
+    return {module, classname: module.ComponentExample.name}
   });
 
   initHtml();

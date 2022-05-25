@@ -14,15 +14,3 @@ export class ComponentExample implements Component{
         return ComponentExample.name;
     }
 }
-
-export class Factory implements ComponentFactory<ComponentExample>{
-    constructor() {}
-
-    async createComponent(world:WorldEntity, config:any): Promise<ComponentExample> {
-        //@ts-ignore
-        let services = world.getFirstComponentByType<Services>(Services.name);
-        let serviceExample = await services.getService<ServiceExample>("@local/ServiceExample");
-        return new ComponentExample(serviceExample,config);
-    }
-}
-

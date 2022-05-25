@@ -15,15 +15,3 @@ export class LazyComponentExample implements Component{
         return LazyComponentExample.name;
     }
 }
-
-export class Factory implements ComponentFactory<LazyComponentExample>{
-    constructor() {}
-
-    async createComponent(world:WorldEntity, config:any): Promise<LazyComponentExample> {
-        //@ts-ignore
-        let services = world.getFirstComponentByType<Services>(Services.name);
-        let serviceExample = await services.getService<LazyServiceExample>("@local/LazyServiceExample");
-        return new LazyComponentExample(serviceExample,config);
-    }
-}
-

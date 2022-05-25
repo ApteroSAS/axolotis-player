@@ -4,7 +4,6 @@ import {Services, WorldEntity} from "../../../lib";
 import {ServiceExample} from "./ServiceExample";
 
 export class ComponentExample implements Component{
-    public static dependencies : string[] = ["@local/ServiceExample"];
     constructor(service:ServiceExample,config:{text:string}) {
         console.log("ComponentExample created", config);
         service.addTextToElement(config.text);

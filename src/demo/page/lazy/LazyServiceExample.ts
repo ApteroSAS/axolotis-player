@@ -22,12 +22,3 @@ export class LazyServiceExample implements Component{
         return LazyServiceExample.name;
     }
 }
-
-export class Factory implements Service<LazyServiceExample>{
-    constructor() {}
-
-    async createService(services:LazyServices): Promise<LazyServiceExample> {
-        return new LazyServiceExample();
-    }
-}
-

@@ -67,12 +67,12 @@ it('createWorld 2', async () => {
 it('createWorld 2 with factories', async () => {
   let localModuleStorage = {};
   registerLocalModule("@local/ServiceExample", async () => {
-    const module = await import("../../demo/page/basic/ServiceExample");
+    const module = await import("../../demo/page/Lazy/ServiceExample");
     return {module, classname: module.Factory.name}
   },localModuleStorage);
 
   registerLocalModule("@local/ComponentExample", async () => {
-    const module = await import("../../demo/page/basic/ComponentExample");
+    const module = await import("../../demo/page/Lazy/ComponentExample");
     return {module, classname: module.Factory.name}
   },localModuleStorage);
   let worldEntity = await createWorld({

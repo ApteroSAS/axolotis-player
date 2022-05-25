@@ -50,6 +50,7 @@ import { ComponentFactory } from "@root/lib/modules/core/ecs/ComponentFactory";
 import {ServiceEntity} from "@root/lib";
 
 export class ComponentExample implements Component{
+    static dependencies : string[] = ["@root/lib/modules/FrameLoop"];
     constructor(frameLoop:FrameLoop) {
         // Here you can use the FrameLoop
     }
@@ -59,6 +60,10 @@ export class ComponentExample implements Component{
     }
 }
 
+```
+If you want more flexibility for instantiating dependencies, you can add a factory alongside your component, replacing the need for ``dependencies``.
+
+```Typescript
 export class Factory implements WebpackLazyModule, ComponentFactory<ComponentExample>{
     async createComponent(world:WorldEntity, config:any): Promise<ComponentExample> {
         // The factory will load the needed service asynchronously to create an instance of this component. 
@@ -70,6 +75,7 @@ export class Factory implements WebpackLazyModule, ComponentFactory<ComponentExa
     }
 }
 ```
+
 ### 🚀 First Service
 
 A service is a Singleton loaded only once per Axolotis page.
@@ -105,6 +111,7 @@ constructor() {}
     }
 }
 ```
+
 
 ### ✅ Examples / Demo
 

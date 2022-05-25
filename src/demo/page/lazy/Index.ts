@@ -2,7 +2,7 @@ import {registerLocalModule, initHtml, WorldEntity, LazyEntity} from "../../../l
 
 registerLocalModule("@local/ServiceExample", async () => {
     const module = await import("./ServiceExample");
-    return {module, classname: module.ServiceExample.name} // return {module, classname: module.ServiceExample.name}
+    return {module, classname: module.Factory.name} // return {module, classname: module.ServiceExample.name}
 });
 
 registerLocalModule("@local/ComponentExample", async () => {
@@ -12,7 +12,7 @@ registerLocalModule("@local/ComponentExample", async () => {
 
 registerLocalModule("@local/LazyServiceExample", async () => {
     const module = await import("./LazyServiceExample");
-    return {module, classname: module.Factory.name}
+    return {module, classname: module.LazyServiceExample.name}
 });
 
 registerLocalModule("@local/LazyComponentExample", async () => {
