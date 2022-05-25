@@ -1,6 +1,4 @@
 import Component from "../../../lib/modules/core/ecs/Component";
-import { LazyServices } from "../../../lib/modules/core/loader/service/LazyServices";
-import {Service} from "../../../lib/modules/core/loader/service/Service";
 
 export class LazyServiceExample implements Component{
     public static dependencies : string[] = [];

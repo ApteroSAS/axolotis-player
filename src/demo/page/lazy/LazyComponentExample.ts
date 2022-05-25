@@ -1,7 +1,4 @@
 import Component from "../../../lib/modules/core/ecs/Component";
-import { ComponentFactory } from "../../../lib/modules/core/ecs/ComponentFactory";
-import {Services, WorldEntity} from "../../../lib";
-import {ServiceExample} from "./ServiceExample";
 import {LazyServiceExample} from "./LazyServiceExample";
 
 export class LazyComponentExample implements Component{

@@ -1,6 +1,6 @@
 import {createWorld, getService, getServiceSync, Services} from "..";
 import Entity from "../modules/core/ecs/Entity";
-import {Factory} from "../../demo/page/basic/ComponentExample";
+import {Factory} from "../../demo/page/lazy/ComponentExample";
 import {ServiceExample} from "../../demo/page/basic/ServiceExample";
 
 
