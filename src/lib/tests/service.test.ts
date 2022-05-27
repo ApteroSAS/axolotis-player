@@ -20,6 +20,6 @@ it('service static', async () => {
   const entity = new Entity();
 
   world.getFirstComponentByType<Services>(Services.name).setService("@local/ServiceExample", new ServiceExample());
-  getServiceSync<ServiceExample>("@local/ServiceExample", world);
-  await getService<ServiceExample>("@local/ServiceExample", world);
+  getServiceSync<ServiceExample>("@local/ServiceExample", world).addTextToElement("test1");
+  (await getService<ServiceExample>("@local/ServiceExample", world)).addTextToElement("test2");
 });
