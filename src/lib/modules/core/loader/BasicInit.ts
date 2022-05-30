@@ -12,12 +12,13 @@ import { LocalModules } from "@root/lib/modules/core/loader/LocalLoader";
 import { WorldDefinition } from "@root/lib/modules/core/loader/WorldDefinition";
 import { IService, WorldEntity } from "@root/lib";
 
-export async function createWorld(
+export function createWorldSync(
   initialScene: WorldDefinition = {
     version: "2.0",
     entities: [],
   },
   loadedCallBack: (progress: number, total: number) => void = () => {},
+  finished: (world: WorldEntity) => void = () => {},
   moduleStorage?: LocalModules,
   world?: WorldEntity
 ) {
@@ -43,6 +44,22 @@ export async function createWorld(
     world.getFirstComponentByType<Services>(Services.name).setService(key, staticServices[key]);
   }
 
-  await (staticServices[CODE_LOADER_MODULE_NAME] as InitialComponentLoader).startLoading(world, initialScene, loadedCallBack, moduleStorage);
+  (staticServices[CODE_LOADER_MODULE_NAME] as InitialComponentLoader).startLoading(world, initialScene, loadedCallBack, moduleStorage).then(() => {
+    finished(world);
+  });
   return world;
+}
+
+export async function createWorld(
+  initialScene: WorldDefinition = {
+    version: "2.0",
+    entities: [],
+  },
+  loadedCallBack: (progress: number, total: number) => void = () => {},
+  moduleStorage?: LocalModules,
+  world?: WorldEntity
+) {
+  return new Promise<WorldEntity>((resolve) => {
+    createWorldSync(initialScene, loadedCallBack, resolve, moduleStorage, world);
+  });
 }
