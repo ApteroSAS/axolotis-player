@@ -1,6 +1,6 @@
 import Component from "../../../lib/modules/core/ecs/Component";
 
-export class LazyServiceExample implements Component{
+export default class LazyServiceExample implements Component{
     public static dependencies : string[] = [];
     constructor() {
         console.log("ServiceExample created");

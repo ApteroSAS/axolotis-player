@@ -8,6 +8,45 @@ it('createWorld', async () => {
   const world = await createWorld();
 });
 
+it('createWorld short register', async () => {
+  let localModuleStorage = {};
+
+  registerLocalModule("@local/LazyServiceExample", () => import("../../demo/page/lazy/LazyServiceExample"),localModuleStorage);
+  registerLocalModule("@local/LazyComponentExample",() => import("../../demo/page/lazy/LazyComponentExample"),localModuleStorage);
+
+  await createWorld({
+    version:"2.0",
+    entities:[
+      {components:[
+          {module:"@local/LazyComponentExample",config:{text:"hello 1"}},
+          {module:"@local/LazyComponentExample",config:{text:"hello 2"}}
+        ]}
+    ]
+  },()=>{},localModuleStorage);
+});
+
+it('createWorld long default register', async () => {
+  let localModuleStorage = {};
+  registerLocalModule("@local/LazyServiceExample", async () => {
+    const module = await import("../../demo/page/lazy/LazyServiceExample");
+    return {module, classname: module.default.name}
+  },localModuleStorage);
+
+  registerLocalModule("@local/LazyComponentExample", async () => {
+    const module = await import("../../demo/page/lazy/LazyComponentExample");
+    return {module, classname: module.default.name}
+  },localModuleStorage);
+  await createWorld({
+    version:"2.0",
+    entities:[
+      {components:[
+          {module:"@local/LazyComponentExample",config:{text:"hello 1"}},
+          {module:"@local/LazyComponentExample",config:{text:"hello 2"}}
+        ]}
+    ]
+  },()=>{},localModuleStorage);
+});
+
 it('createWorld from json', async () => {
   let localModuleStorage = {};
   registerLocalModule("@local/ServiceExample", async () => {
@@ -62,7 +101,6 @@ it('createWorld 2', async () => {
   await entity.addComponentAsync("@local/ComponentExample", {text: "hello"});
   await entity.addComponentAsync("@local/ComponentExample", {text: "hello2"});
 });
-
 
 it('createWorld 2 with factories', async () => {
   let localModuleStorage = {};
