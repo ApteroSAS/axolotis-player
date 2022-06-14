@@ -17,6 +17,7 @@
       },
       "plugins": [
         {
+          //used to replace the alias by relative path
           "transform": "typescript-transform-paths",
           "afterDeclarations": true
         }
