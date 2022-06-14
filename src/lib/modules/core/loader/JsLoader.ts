@@ -1,4 +1,3 @@
-import { ComponentFactory } from "@root/lib/modules/core/ecs/ComponentFactory";
 import Component from "@root/lib/modules/core/ecs/Component";
 import { instantiateLocalAsyncModule, LocalModules } from "@root/lib/modules/core/loader/LocalLoader";
 import { WorldEntity } from "../ecs/WorldEntity";

@@ -102,7 +102,7 @@ it('createWorld 2', async () => {
   await entity.addComponentAsync("@local/ComponentExample", {text: "hello2"});
 });
 
-it('createWorld 2 with factories', async () => {
+/*it('createWorld 2 with factories', async () => {
   let localModuleStorage = {};
   registerLocalModule("@local/ServiceExample", async () => {
     const module = await import("../../demo/page/Lazy/ServiceExample");
@@ -126,4 +126,4 @@ it('createWorld 2 with factories', async () => {
   worldEntity.addComponent(entity);
   await entity.addComponentAsync("@local/ComponentExample", {text: "hello"});
   await entity.addComponentAsync("@local/ComponentExample", {text: "hello2"});
-});
+});*/
