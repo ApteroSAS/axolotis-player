@@ -1,14 +1,8 @@
-import { IService, Module } from "../../..";
+import { Module } from "../../..";
 /**
  * An Item (or SmartItem) is a set of Module (Services and/or Component)
  */
 export interface Item {
-    /**
-     * Register a set of static services
-     */
-    staticService(): {
-        [id: string]: IService;
-    };
     /**
      * Register Asynchronous/Dynamic Component or Service
      */

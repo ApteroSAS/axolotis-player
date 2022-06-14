@@ -1,7 +1,6 @@
 var axolotis = null;
 
 export const GLOBAL_WORLDS_ENTITY = "worlds";
-export const GLOBAL_STATIC_SERVICES = "staticServices";
 export const GLOBAL_LOCAL_MODULE = "localModules";
 
 export function getGlobalStorage(): any {
