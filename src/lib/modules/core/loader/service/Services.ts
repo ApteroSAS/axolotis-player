@@ -11,7 +11,7 @@ export class Services extends LazyServices implements Component, IServices {
     if (this.service[moduleName]) {
       return this.service[moduleName] as T;
     } else {
-      throw new Error("service not found");
+      throw new Error("service not found : " + moduleName);
     }
   }
 }
