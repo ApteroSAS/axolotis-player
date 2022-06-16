@@ -4,14 +4,14 @@ import { WorldEntity } from "../ecs/WorldEntity";
 import { Services } from "./service/Services";
 import { GLOBAL_LOCAL_MODULE } from "@root/lib";
 
-export type Module = LongModule | ShortModule;
-export type LongModule = () => Promise<{ module: any; classname: string }>; //in case there is several export in the file
-export type ShortModule = () => Promise<any>; //In this case the js module must be the default export of the class
+export type ModulePromise = (() => Promise<LongModule>) | (() => Promise<ShortModule>);
+export type LongModule = { module: any; classname: string }; //in case there is several export in the file
+export type ShortModule = { default: { name: string } }; //In this case the js module must be the default export of the class
 export interface LocalModules {
-  [id: string]: Module;
+  [id: string]: ModulePromise;
 }
 
-export function registerLocalModule(name: string, module: Module, moduleStorage?: LocalModules) {
+export function registerLocalModule(name: string, module: ModulePromise, moduleStorage?: LocalModules) {
   if (!moduleStorage) {
     moduleStorage = getGlobalStorageValue<LocalModules>(GLOBAL_LOCAL_MODULE); //GG name
   }
@@ -25,15 +25,18 @@ function getClassName(module: any): string {
   if (module.classname) {
     //LongModule Case
     return module.classname;
-  } else {
+  } else if (module.default && module.default.name) {
     //ShortModule case
     return module.default.name;
+  } else {
+    console.error(module);
+    throw new Error("Malformed module");
   }
 }
 
 export async function instantiateLocalAsyncModule<T>(fqcn: string, localModules: LocalModules, world: WorldEntity, config?: any): Promise<T> {
   const localModule = await localModules[fqcn]();
-  let module = localModule.module;
+  let module = (localModule as any).module;
   if (!module) {
     module = localModule; //SortModule case definition
   }

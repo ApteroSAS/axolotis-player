@@ -1,4 +1,4 @@
-import { Module, registerLocalModule } from "@root/lib";
+import { ModulePromise, registerLocalModule } from "@root/lib";
 
 /**
  * An Item (or SmartItem) is a set of Module (Services and/or Component)
@@ -7,7 +7,7 @@ export interface Item {
   /**
    * Register Asynchronous/Dynamic Component or Service
    */
-  modules(): { [id: string]: Module };
+  modules(): { [id: string]: ModulePromise };
 }
 
 export function registerItem(item: Item) {

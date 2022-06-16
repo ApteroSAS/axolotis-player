@@ -24,8 +24,7 @@ const banner = `
 
 module.exports = {
     mode: "production",
-    devtool: 'source-map', //for prod
-    //devtool: 'eval-source-map', //for debug
+    devtool: process.env.DEVTOOL || 'source-map',
     entry: {
         index: path.join(__dirname, './src/lib/index.ts'),
     },
