@@ -40,9 +40,29 @@ export async function instantiateLocalAsyncModule<T>(fqcn: string, localModules:
   if (!module) {
     module = localModule; //SortModule case definition
   }
+
+  let duplicateCheck = {};
+  let useKeyOnly = false;
   for (const key in module) {
     const sub = module[key];
-    if (sub.prototype && sub.prototype.constructor.name === getClassName(localModule)) {
+    if (sub.prototype && sub.prototype.constructor.name) {
+      if (duplicateCheck[sub.prototype.constructor.name]) {
+        useKeyOnly = true;
+        //console.info("[axolotis] duplicated constructor module name found (switching to use key only) : " + sub.prototype.constructor.name);
+      }
+      duplicateCheck[sub.prototype.constructor.name] = true;
+    }
+  }
+
+  for (const key in module) {
+    const sub = module[key];
+    let moduleFound;
+    if (useKeyOnly) {
+      moduleFound = (sub.prototype && sub.prototype.constructor.name === getClassName(localModule)) || key === getClassName(localModule);
+    } else {
+      moduleFound = key === getClassName(localModule);
+    }
+    if (moduleFound) {
       let DependencyComponentList: Component[] = [];
       if (sub.dependencies) {
         for (let i = 0; i < sub.dependencies.length; i++) {
