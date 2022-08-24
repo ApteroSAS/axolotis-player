@@ -68,7 +68,7 @@ export class Entity implements Component {
   }
 
   public getType(): string {
-    return Entity.name;
+    return "Entity";
   }
 }
 

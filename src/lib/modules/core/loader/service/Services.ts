@@ -4,7 +4,7 @@ import { IService, IServices } from "@root/lib";
 
 export class Services extends LazyServices implements Component, IServices {
   getType(): string {
-    return Services.name;
+    return "Services";
   }
 
   getServiceSync<T extends IService>(moduleName: string): T {

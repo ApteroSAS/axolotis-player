@@ -19,6 +19,6 @@ export class LazyEntity extends Entity {
   }
 
   public getType(): string {
-    return LazyEntity.name;
+    return "LazyEntity";
   }
 }

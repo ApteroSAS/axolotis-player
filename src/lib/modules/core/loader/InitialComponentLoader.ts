@@ -19,7 +19,7 @@ export class InitialComponentLoader implements Component {
   }
 
   getType(): string {
-    return InitialComponentLoader.name;
+    return "InitialComponentLoader";
   }
 
   getModuleStorage() {

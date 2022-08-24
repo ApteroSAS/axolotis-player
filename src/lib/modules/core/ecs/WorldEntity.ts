@@ -5,6 +5,6 @@ export class WorldEntity extends Entity {
     super();
   }
   public getType(): string {
-    return WorldEntity.name;
+    return "WorldEntity";
   }
 }
