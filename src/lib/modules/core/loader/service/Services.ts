@@ -2,9 +2,10 @@ import Component from "@root/lib/modules/core/ecs/Component";
 import { LazyServices } from "@root/lib/modules/core/loader/service/LazyServices";
 import { IService, IServices } from "@root/lib";
 
+export const ComponentName = "Services";
 export class Services extends LazyServices implements Component, IServices {
   getType(): string {
-    return "Services";
+    return ComponentName;
   }
 
   getServiceSync<T extends IService>(moduleName: string): T {

@@ -1,7 +1,7 @@
 import { getGlobalStorageValue } from "@root/lib/modules/core/loader/Global";
 import Component from "../ecs/Component";
 import { WorldEntity } from "../ecs/WorldEntity";
-import { Services } from "./service/Services";
+import { ComponentName, Services } from "./service/Services";
 import { GLOBAL_LOCAL_MODULE } from "@root/lib";
 
 export type ModulePromise = (() => Promise<LongModule>) | (() => Promise<ShortModule>);
@@ -67,7 +67,7 @@ export async function instantiateLocalAsyncModule<T>(fqcn: string, localModules:
       if (sub.dependencies) {
         for (let i = 0; i < sub.dependencies.length; i++) {
           const dep = sub.dependencies[i];
-          let services = world.getFirstComponentByType<Services>(Services.name);
+          let services = world.getFirstComponentByType<Services>(ComponentName);
           let service = await services.getService<Component>(dep);
           DependencyComponentList.push(service);
         }

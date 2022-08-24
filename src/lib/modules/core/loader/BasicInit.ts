@@ -1,4 +1,4 @@
-import { Services } from "@root/lib/modules/core/loader/service/Services";
+import { ComponentName, Services } from "@root/lib/modules/core/loader/service/Services";
 import { InitialComponentLoader, CODE_LOADER_MODULE_NAME } from "@root/lib/modules/core/loader/InitialComponentLoader";
 import { getGlobalStorageValue, GLOBAL_LOCAL_MODULE, GLOBAL_WORLDS_ENTITY, setGlobalStorageValue } from "@root/lib/modules/core/loader/Global";
 import { LocalModules } from "@root/lib/modules/core/loader/LocalLoader";
@@ -34,7 +34,7 @@ export function createWorldSync(
     staticServices[CODE_LOADER_MODULE_NAME] = new InitialComponentLoader();
   }
   for (const key in staticServices) {
-    world.getFirstComponentByType<Services>(Services.name).setService(key, staticServices[key]);
+    world.getFirstComponentByType<Services>(ComponentName).setService(key, staticServices[key]);
   }
 
   (staticServices[CODE_LOADER_MODULE_NAME] as InitialComponentLoader).startLoading(world, initialScene, loadedCallBack, moduleStorage).then(() => {
