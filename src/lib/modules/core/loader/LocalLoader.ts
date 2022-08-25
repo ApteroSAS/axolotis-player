@@ -67,6 +67,7 @@ export async function instantiateLocalAsyncModule<T>(fqcn: string, localModules:
       if (sub.dependencies) {
         for (let i = 0; i < sub.dependencies.length; i++) {
           const dep = sub.dependencies[i];
+          if (!dep) throw new Error("invalid dependencies in:" + getClassName(localModule));
           let services = world.getFirstComponentByType<Services>(ComponentName);
           let service = await services.getService<Component>(dep);
           DependencyComponentList.push(service);

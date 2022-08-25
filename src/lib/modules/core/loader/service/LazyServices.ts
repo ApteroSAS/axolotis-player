@@ -15,6 +15,7 @@ export class LazyServices {
   }
 
   setService(moduleName: string, service: IService, replace = false) {
+    if (!moduleName) throw new Error();
     if (!replace && (this.serviceAsync[moduleName] || this.service[moduleName])) {
       throw new Error("Service already exist (use replace to force)");
     }
@@ -26,6 +27,7 @@ export class LazyServices {
   }
 
   async getService<T extends IService>(moduleName: string): Promise<T> {
+    if (!moduleName) throw new Error();
     if (this.serviceAsync[moduleName]) {
       //service already downloading add this request to queue;
       const service = await this.serviceAsync[moduleName];
