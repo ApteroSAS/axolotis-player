@@ -28,27 +28,25 @@ export class LazyServices {
 
   async getService<T extends IService>(moduleName: string): Promise<T> {
     if (!moduleName) throw new Error();
-    if (this.serviceAsync[moduleName]) {
-      //service already downloading add this request to queue;
-      const service = await this.serviceAsync[moduleName];
-      if (!service) {
-        throw new Error("error");
-      }
-      return service as T;
-    }
     if (!this.serviceAsync[moduleName]) {
-      let modulesList = ((await this.serviceAsync[CODE_LOADER_MODULE_NAME]) as InitialComponentLoader).getModuleStorage();
-      let modulePromise = instantiateAsyncModule<T>(moduleName, modulesList, this.world);
-      this.serviceAsync[moduleName] = new Promise(async (resolve) => {
+      // it is important to assign value as soon as possible to avoid multiple service creation from rapid getService call.
+      this.serviceAsync[moduleName] = (async () => {
+        let modulesList = ((await this.serviceAsync[CODE_LOADER_MODULE_NAME]) as InitialComponentLoader).getModuleStorage();
+        let modulePromise = instantiateAsyncModule<T>(moduleName, modulesList, this.world);
         let module: any = await modulePromise;
         let service: Component = module.getType ? module : await module.createService(this);
         this.service[moduleName] = service; //module resolved
         if (service.init) {
           service.init(); //service init
         }
-        resolve(service);
-      });
+        return service;
+      })();
     }
-    return (await this.serviceAsync[moduleName]) as T;
+    //service already downloading add this request to queue;
+    const service = await this.serviceAsync[moduleName];
+    if (!service) {
+      throw new Error("Internal engine error");
+    }
+    return service as T;
   }
 }
