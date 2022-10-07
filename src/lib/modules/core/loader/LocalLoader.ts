@@ -2,7 +2,7 @@ import { getGlobalStorageValue } from "@root/lib/modules/core/loader/Global";
 import Component from "../ecs/Component";
 import { WorldEntity } from "../ecs/WorldEntity";
 import { ComponentName, Services } from "./service/Services";
-import { GLOBAL_LOCAL_MODULE } from "@root/lib";
+import { GLOBAL_LOCAL_MODULE, getService } from "@root/lib";
 
 export type ModulePromise = (() => Promise<LongModule>) | (() => Promise<ShortModule>);
 export type LongModule = { module: any; classname: string }; //in case there is several export in the file
@@ -11,7 +11,13 @@ export interface LocalModules {
   [id: string]: ModulePromise;
 }
 
-export function registerLocalModule(name: string, module: ModulePromise, moduleStorage?: LocalModules) {
+const preloadModules: Promise<any>[] = [];
+
+export async function waitPreload() {
+  return await Promise.all(preloadModules);
+}
+
+export function registerLocalModule(name: string, module: ModulePromise, moduleStorage?: LocalModules, preload = false) {
   if (!moduleStorage) {
     moduleStorage = getGlobalStorageValue<LocalModules>(GLOBAL_LOCAL_MODULE); //GG name
   }
@@ -19,6 +25,9 @@ export function registerLocalModule(name: string, module: ModulePromise, moduleS
     throw new Error("Module already defined");
   }
   moduleStorage[name] = module;
+  if (preload) {
+    preloadModules.push(getService(name));
+  }
 }
 
 function getClassName(module: any): string {

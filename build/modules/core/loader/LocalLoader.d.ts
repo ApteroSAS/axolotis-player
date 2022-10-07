@@ -12,5 +12,6 @@ export declare type ShortModule = {
 export interface LocalModules {
     [id: string]: ModulePromise;
 }
-export declare function registerLocalModule(name: string, module: ModulePromise, moduleStorage?: LocalModules): void;
+export declare function waitPreload(): Promise<any[]>;
+export declare function registerLocalModule(name: string, module: ModulePromise, moduleStorage?: LocalModules, preload?: boolean): void;
 export declare function instantiateLocalAsyncModule<T>(fqcn: string, localModules: LocalModules, world: WorldEntity, config?: any): Promise<T>;
