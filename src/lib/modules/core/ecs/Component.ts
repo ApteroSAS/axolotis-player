@@ -1,3 +1,7 @@
+/**
+ * A static dependencies : string[] field can be specified to request Axolotis dependencies -string correspond to Axolotis dependencies.
+ * They will be injected in the same order in the constructor of the component otherwise the constructor takes no parameters.
+ */
 export interface Component {
   getType(): string;
 
